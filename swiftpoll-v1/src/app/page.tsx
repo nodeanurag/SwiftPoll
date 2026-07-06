@@ -116,6 +116,24 @@ export default function HomePage() {
             <div className="text-xs text-[var(--color-ash)] uppercase tracking-wider">Media &amp; Innovation Pastor</div>
           </div>
         </section>
+
+        {/* Brand stats banner - Parchment Background */}
+        <section className="mt-24 mx-auto max-w-5xl bg-[var(--color-parchment)] rounded-[24px] p-12 sm:p-16 border border-[var(--color-mist)]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
+            <div className="space-y-2">
+              <div className="font-serif text-5xl font-normal text-[var(--color-aubergine-ink)] tracking-tight">100%</div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-ash)]">Anonymous</div>
+            </div>
+            <div className="space-y-2">
+              <div className="font-serif text-5xl font-normal text-[var(--color-aubergine-ink)] tracking-tight">Zero</div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-ash)]">Sign-up required</div>
+            </div>
+            <div className="space-y-2">
+              <div className="font-serif text-5xl font-normal text-[var(--color-aubergine-ink)] tracking-tight">Instant</div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-ash)]">Real-time Sync</div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

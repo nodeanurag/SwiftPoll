@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import { AuthRedirectHandler } from "@/components/auth/auth-redirect-handler";
 
 export default function HomePage() {
@@ -33,6 +34,23 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Main Content Area - Cream Canvas */}
+      <div className="bg-[var(--color-cream-canvas)] text-[var(--color-aubergine-ink)] py-20 px-6 sm:px-12">
+        
+        {/* Builder Container with Card */}
+        <section id="builder" className="mx-auto max-w-3xl -mt-36 relative z-20 mb-24">
+          <Card className="border border-[var(--color-border)] bg-[var(--color-pure-white)] p-8 sm:p-12 rounded-[24px] shadow-xl">
+            <div className="mb-8 space-y-2">
+              <h2 className="font-serif text-3xl font-normal tracking-tight">Create your poll</h2>
+              <p className="text-sm text-[var(--color-ash)]">Fill in your question and add custom choices below.</p>
+            </div>
+            <div className="py-12 text-center text-sm text-[var(--color-muted-fg)]">
+              Form container placeholder...
+            </div>
+          </Card>
+        </section>
+      </div>
     </div>
   );
 }

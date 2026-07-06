@@ -54,6 +54,21 @@ export default function HomePage() {
             <RecentPolls />
           </Card>
         </section>
+
+        {/* Feature Grid Section */}
+        <section id="features" className="mx-auto max-w-5xl space-y-16">
+          <div className="text-center space-y-4">
+            <span className="text-[var(--color-violet-mist)] font-medium text-sm tracking-[0.12em] uppercase font-sans">
+              PRODUCT HIGHLIGHTS
+            </span>
+            <h3 className="font-serif text-4xl sm:text-5xl font-normal tracking-[-0.02em]">
+              Designed for modern engagement
+            </h3>
+            <p className="mx-auto max-w-xl text-[var(--color-ash)]">
+              Skip the complexity of traditional form builders. SwiftPoll is streamlined for speed and readability.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );

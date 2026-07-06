@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { CreatePollForm } from "@/components/poll/create-poll-form";
 import { RecentPolls } from "@/components/poll/recent-polls";
 import { AuthRedirectHandler } from "@/components/auth/auth-redirect-handler";
+import { Zap, Link as LinkIcon, Shield, BarChart3, HelpCircle, Eye } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -67,6 +68,41 @@ export default function HomePage() {
             <p className="mx-auto max-w-xl text-[var(--color-ash)]">
               Skip the complexity of traditional form builders. SwiftPoll is streamlined for speed and readability.
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6">
+            <div className="bg-[var(--color-pure-white)] border border-[var(--color-mist)] p-8 rounded-[24px] space-y-4 hover:border-[var(--color-violet-mist)] transition-colors duration-300">
+              <div className="h-12 w-12 rounded-xl bg-[var(--color-parchment)] flex items-center justify-center text-[var(--color-aubergine-ink)]">
+                <BarChart3 className="h-6 w-6" />
+              </div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-violet-mist)]">Poll Creator</div>
+              <h4 className="font-serif text-xl font-normal">Collect opinions quickly</h4>
+              <p className="text-sm text-[var(--color-ash)] leading-relaxed">
+                Need instant feedback? Want to predict voter behavior? Looking for insights to inform your marketing strategy? Build a poll worth voting for—and get all the data you need.
+              </p>
+            </div>
+
+            <div className="bg-[var(--color-pure-white)] border border-[var(--color-mist)] p-8 rounded-[24px] space-y-4 hover:border-[var(--color-violet-mist)] transition-colors duration-300">
+              <div className="h-12 w-12 rounded-xl bg-[var(--color-parchment)] flex items-center justify-center text-[var(--color-aubergine-ink)]">
+                <Shield className="h-6 w-6" />
+              </div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-violet-mist)]">No Code Poll Builder</div>
+              <h4 className="font-serif text-xl font-normal">Beautiful and easy to build</h4>
+              <p className="text-sm text-[var(--color-ash)] leading-relaxed">
+                Typeform’s drag and drop builder lets you easily make an online poll that looks beautiful within minutes—with zero coding. Embed and share it seamlessly, and get the data you’re after.
+              </p>
+            </div>
+
+            <div className="bg-[var(--color-pure-white)] border border-[var(--color-mist)] p-8 rounded-[24px] space-y-4 hover:border-[var(--color-violet-mist)] transition-colors duration-300">
+              <div className="h-12 w-12 rounded-xl bg-[var(--color-parchment)] flex items-center justify-center text-[var(--color-aubergine-ink)]">
+                <Zap className="h-6 w-6" />
+              </div>
+              <div className="text-xs font-semibold tracking-wider uppercase text-[var(--color-violet-mist)]">Data Insights</div>
+              <h4 className="font-serif text-xl font-normal">More data, better insights</h4>
+              <p className="text-sm text-[var(--color-ash)] leading-relaxed">
+                What happens when you keep your audience engaged? You get more responses than ever. Collect instant, actionable insights that help you make better decisions faster.
+              </p>
+            </div>
           </div>
         </section>
       </div>

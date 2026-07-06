@@ -1,4 +1,7 @@
+import { Suspense } from "react";
 import { Card } from "@/components/ui/card";
+import { CreatePollForm } from "@/components/poll/create-poll-form";
+import { RecentPolls } from "@/components/poll/recent-polls";
 import { AuthRedirectHandler } from "@/components/auth/auth-redirect-handler";
 
 export default function HomePage() {
@@ -45,9 +48,10 @@ export default function HomePage() {
               <h2 className="font-serif text-3xl font-normal tracking-tight">Create your poll</h2>
               <p className="text-sm text-[var(--color-ash)]">Fill in your question and add custom choices below.</p>
             </div>
-            <div className="py-12 text-center text-sm text-[var(--color-muted-fg)]">
-              Form container placeholder...
-            </div>
+            <Suspense fallback={<div className="py-12 text-center text-sm text-[var(--color-muted-fg)]">Loading form...</div>}>
+              <CreatePollForm />
+            </Suspense>
+            <RecentPolls />
           </Card>
         </section>
       </div>

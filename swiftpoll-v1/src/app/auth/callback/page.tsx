@@ -15,6 +15,11 @@ export default function AuthCallbackPage() {
         router.push("/dashboard");
       }
     });
+
+    // Fallback: if nothing happens, redirect home after 5s
+    const timeout = setTimeout(() => {
+      router.push("/dashboard");
+    }, 5000);
   }, [supabase, router]);
 
   return (

@@ -139,7 +139,7 @@ export default function HomePage() {
         {/* Quote Block */}
         <section className="mt-24 mx-auto max-w-3xl text-center space-y-4 bg-[var(--color-parchment)] rounded-[24px] p-12 border border-[var(--color-mist)]">
           <blockquote className="font-serif text-2xl sm:text-3xl font-normal italic leading-relaxed text-balance text-[var(--color-aubergine-ink)]">
-            "Stop using ugly poll tools. Try Typeform for mobile-friendly, awesome surveys and forms."
+            &ldquo;Stop using ugly poll tools. Try Typeform for mobile-friendly, awesome surveys and forms."
           </blockquote>
           <div className="space-y-0.5">
             <div className="font-serif text-lg font-semibold text-[var(--color-aubergine-ink)]">Kenny Jahng</div>

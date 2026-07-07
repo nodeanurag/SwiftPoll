@@ -127,11 +127,11 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative rounded-[24px] bg-[#f9f2fd] p-6 border border-[var(--color-mist)] flex justify-center items-center overflow-hidden">
             <img 
               src="/realtime-poll-preview.png" 
               alt="Real-time analytics dashboard preview" 
-              className="w-full object-cover max-h-[300px]" 
+              className="rounded-xl shadow-lg w-full object-cover max-h-[300px] animate-float" 
             />
           </div>
         </section>

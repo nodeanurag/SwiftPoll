@@ -108,6 +108,17 @@ export default function HomePage() {
 
         {/* Visual Content Section: Text Left, Product Visual Right */}
         <section className="mx-auto max-w-5xl py-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <span className="text-[var(--color-violet-mist)] font-medium text-sm tracking-[0.12em] uppercase font-sans">
+              REAL-TIME INSIGHTS
+            </span>
+            <h3 className="font-serif text-3xl sm:text-4xl font-normal tracking-[-0.02em] leading-tight">
+              Watch opinions shape in real time
+            </h3>
+            <p className="text-sm text-[var(--color-ash)] leading-relaxed">
+              Our real-time dashboard is built for instant clarity. As votes pour in, watch counts increment and animated progress bars update instantly. Spot leading options and viewer engagement at a glance.
+            </p>
+          </div>
         </section>
 
         {/* Quote Block */}

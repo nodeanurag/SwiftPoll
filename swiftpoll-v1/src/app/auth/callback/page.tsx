@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getBrowserClient } from "@/lib/supabase/client";
+import { Loader } from "@/components/ui/loader";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -29,6 +30,9 @@ export default function AuthCallbackPage() {
 
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center space-y-4 px-6 text-center">
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-subtle)] border border-[var(--color-border)] text-[var(--color-brand-500)] shadow-md animate-bounce">
+        <Loader className="h-6 w-6" />
+      </div>
     </div>
   );
 }

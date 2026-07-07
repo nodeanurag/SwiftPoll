@@ -33,6 +33,10 @@ export default function AuthCallbackPage() {
       <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-subtle)] border border-[var(--color-border)] text-[var(--color-brand-500)] shadow-md animate-bounce">
         <Loader className="h-6 w-6" />
       </div>
+      <h1 className="font-serif text-2xl font-normal">Authenticating with Google...</h1>
+      <p className="text-sm text-[var(--color-muted-fg)]">
+        Setting up your secure SwiftPoll session. Just a moment.
+      </p>
     </div>
   );
 }

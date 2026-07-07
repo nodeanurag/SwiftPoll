@@ -9,6 +9,12 @@ export default function AuthCallbackPage() {
   const supabase = getBrowserClient();
 
   useEffect(() => {
+    // Listen for auth state change
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" || session) {
+        router.push("/dashboard");
+      }
+    });
   }, [supabase, router]);
 
   return (

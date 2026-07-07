@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { CreatePollForm } from "@/components/poll/create-poll-form";
 import { RecentPolls } from "@/components/poll/recent-polls";
 import { AuthRedirectHandler } from "@/components/auth/auth-redirect-handler";
-import { Zap, Link as LinkIcon, Shield, BarChart3, HelpCircle, Eye } from "lucide-react";
+import { Zap, Shield, BarChart3 } from "lucide-react";
 
 export default function HomePage() {
   return (

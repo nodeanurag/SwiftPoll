@@ -20,6 +20,11 @@ export default function AuthCallbackPage() {
     const timeout = setTimeout(() => {
       router.push("/dashboard");
     }, 5000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, [supabase, router]);
 
   return (

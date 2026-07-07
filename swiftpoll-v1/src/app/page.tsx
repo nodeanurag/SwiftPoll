@@ -118,6 +118,14 @@ export default function HomePage() {
             <p className="text-sm text-[var(--color-ash)] leading-relaxed">
               Our real-time dashboard is built for instant clarity. As votes pour in, watch counts increment and animated progress bars update instantly. Spot leading options and viewer engagement at a glance.
             </p>
+            <div className="pt-2">
+              <a 
+                href="#builder" 
+                className="inline-flex h-11 items-center justify-center rounded-[var(--radius)] bg-[var(--color-aubergine-ink)] px-6 text-sm font-medium text-[var(--color-cream-canvas)] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm"
+              >
+                Create your first poll
+              </a>
+            </div>
           </div>
         </section>
 

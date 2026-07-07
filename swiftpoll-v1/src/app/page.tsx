@@ -127,6 +127,13 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+          <div className="relative">
+            <img 
+              src="/realtime-poll-preview.png" 
+              alt="Real-time analytics dashboard preview" 
+              className="w-full object-cover max-h-[300px]" 
+            />
+          </div>
         </section>
 
         {/* Quote Block */}

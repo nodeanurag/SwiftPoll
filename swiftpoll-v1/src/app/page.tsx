@@ -106,6 +106,10 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Visual Content Section: Text Left, Product Visual Right */}
+        <section className="mx-auto max-w-5xl py-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        </section>
+
         {/* Quote Block */}
         <section className="mt-24 mx-auto max-w-3xl text-center space-y-4 bg-[var(--color-parchment)] rounded-[24px] p-12 border border-[var(--color-mist)]">
           <blockquote className="font-serif text-2xl sm:text-3xl font-normal italic leading-relaxed text-balance text-[var(--color-aubergine-ink)]">

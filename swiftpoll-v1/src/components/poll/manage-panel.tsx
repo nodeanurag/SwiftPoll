@@ -99,3 +99,8 @@ export function ManagePanel({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setEditedQuestion(initialQuestion);
   }, [initialQuestion]);
+
+  const hasAccess = token || (user && pollUserId && user.id === pollUserId);
+
+  if (loading) return null;
+  if (!hasAccess) return null;

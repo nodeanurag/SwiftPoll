@@ -120,3 +120,24 @@ export function ManagePanel({
     }
     router.refresh();
   }
+
+  async function remove() {
+    setBusy("delete");
+    setError(null);
+    const res = await managePoll({
+      slug,
+      adminToken: token ?? undefined,
+      action: "delete",
+    }, sessionToken);
+    if (!res.ok) {
+      setBusy(null);
+      setError(res.error ?? "Something went wrong.");
+      return;
+    }
+    clearAdminToken(slug);
+    if (user) {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+    }
+  }

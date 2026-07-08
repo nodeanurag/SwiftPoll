@@ -35,3 +35,11 @@ export function ManagePanel({
   const [busy, setBusy] = useState<"close" | "delete" | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Edit Question States
+  const [secondsLeft, setSecondsLeft] = useState<number>(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedQuestion, setEditedQuestion] = useState(initialQuestion);
+  const [savingQuestion, setSavingQuestion] = useState(false);
+
+  const supabase = getBrowserClient();

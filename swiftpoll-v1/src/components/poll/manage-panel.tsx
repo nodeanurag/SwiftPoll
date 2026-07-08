@@ -94,3 +94,8 @@ export function ManagePanel({
 
     return () => clearInterval(timer);
   }, [createdAt]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEditedQuestion(initialQuestion);
+  }, [initialQuestion]);

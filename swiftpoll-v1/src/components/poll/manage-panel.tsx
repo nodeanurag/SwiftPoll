@@ -43,3 +43,28 @@ export function ManagePanel({
   const [savingQuestion, setSavingQuestion] = useState(false);
 
   const supabase = getBrowserClient();
+
+  useEffect(() => {
+    // Read local admin token
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setToken(getAdminToken(slug));
+
+    // Get current user session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setSessionToken(session?.access_token);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setSessionToken(session?.access_token);
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [slug, supabase]);

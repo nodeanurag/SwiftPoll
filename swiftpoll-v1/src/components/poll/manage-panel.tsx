@@ -27,3 +27,11 @@ export function ManagePanel({
   createdAt: string;
   initialQuestion: string;
 }) {
+  const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [sessionToken, setSessionToken] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState<"close" | "delete" | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [error, setError] = useState<string | null>(null);

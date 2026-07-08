@@ -208,3 +208,32 @@ export function ManagePanel({
           )}
         </div>
       </div>
+
+      {isEditing && (
+        <div className="mt-4 space-y-3 border-t pt-3 border-[var(--color-border)]">
+          <div className="space-y-1">
+            <label htmlFor="edit-question-input" className="block text-xs font-semibold uppercase tracking-wider text-[var(--color-muted-fg)]">
+              Edit Question ({secondsLeft}s left)
+            </label>
+            <input
+              id="edit-question-input"
+              type="text"
+              value={editedQuestion}
+              onChange={(e) => setEditedQuestion(e.target.value)}
+              maxLength={200}
+              className="w-full h-10 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[var(--color-brand-500)] text-[var(--color-fg)]"
+              disabled={savingQuestion}
+              autoFocus
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button variant="secondary" size="sm" onClick={saveQuestion} disabled={savingQuestion}>
+              {savingQuestion ? <Loader /> : null}
+              Save Changes
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => { setIsEditing(false); setEditedQuestion(initialQuestion); }} disabled={savingQuestion}>
+              Cancel
+            </div>
+          </div>
+        </div>
+      )}

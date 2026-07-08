@@ -141,3 +141,33 @@ export function ManagePanel({
       router.push("/");
     }
   }
+
+  async function saveQuestion() {
+    const trimmed = editedQuestion.trim();
+    if (!trimmed) {
+      setError("Question cannot be empty.");
+      return;
+    }
+    if (trimmed.length > 200) {
+      setError("Question must be 200 characters or fewer.");
+      return;
+    }
+
+    setSavingQuestion(true);
+    setError(null);
+
+    const res = await editPollQuestion({
+      slug,
+      newQuestion: trimmed,
+      adminToken: token ?? undefined,
+    }, sessionToken);
+
+    setSavingQuestion(false);
+    if (!res.ok) {
+      setError(res.error ?? "Failed to save question.");
+      return;
+    }
+
+    setIsEditing(false);
+    router.refresh();
+  }

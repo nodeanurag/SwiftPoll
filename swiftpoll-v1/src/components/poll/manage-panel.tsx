@@ -181,3 +181,30 @@ export function ManagePanel({
             Only visible to you as the creator.
           </p>
         </div>
+        <div className="flex flex-wrap gap-2">
+          {secondsLeft > 0 && !isEditing && (
+            <Button variant="secondary" size="sm" onClick={() => setIsEditing(true)}>
+              Edit ({secondsLeft}s)
+            </Button>
+          )}
+          <Button variant="secondary" size="sm" onClick={toggleClose} disabled={busy !== null || isEditing}>
+            {busy === "close" ? <Loader /> : null}
+            {isClosed ? "Reopen" : "Close"}
+          </Button>
+          {confirmDelete ? (
+            <Button variant="danger" size="sm" onClick={remove} disabled={busy !== null || isEditing}>
+              {busy === "delete" ? <Loader /> : null}
+              Confirm delete
+            </Button>
+          ) : (
+            <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(true)} disabled={isEditing} className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20">
+              Delete
+            </Button>
+          )}
+          {confirmDelete && (
+            <Button variant="ghost" size="sm" onClick={() => setConfirmDelete(false)} disabled={isEditing}>
+              Cancel
+            </Button>
+          )}
+        </div>
+      </div>

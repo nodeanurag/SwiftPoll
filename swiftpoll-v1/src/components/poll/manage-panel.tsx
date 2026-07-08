@@ -104,3 +104,19 @@ export function ManagePanel({
 
   if (loading) return null;
   if (!hasAccess) return null;
+
+  async function toggleClose() {
+    setBusy("close");
+    setError(null);
+    const res = await managePoll({
+      slug,
+      adminToken: token ?? undefined,
+      action: isClosed ? "reopen" : "close",
+    }, sessionToken);
+    setBusy(null);
+    if (!res.ok) {
+      setError(res.error ?? "Something went wrong.");
+      return;
+    }
+    router.refresh();
+  }

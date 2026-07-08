@@ -233,7 +233,12 @@ export function ManagePanel({
             </Button>
             <Button variant="ghost" size="sm" onClick={() => { setIsEditing(false); setEditedQuestion(initialQuestion); }} disabled={savingQuestion}>
               Cancel
-            </div>
+            </Button>
           </div>
         </div>
       )}
+
+      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+    </div>
+  );
+}

@@ -68,3 +68,29 @@ export function ManagePanel({
       subscription.unsubscribe();
     };
   }, [slug, supabase]);
+
+  // Edit Question Timer
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const createdTime = new Date(createdAt).getTime();
+      const elapsed = (Date.now() - createdTime) / 1000;
+      return Math.max(0, Math.ceil(100 - elapsed));
+    };
+
+    const initialLeft = calculateTimeLeft();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSecondsLeft(initialLeft);
+
+    if (initialLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      const left = calculateTimeLeft();
+      setSecondsLeft(left);
+      if (left <= 0) {
+        clearInterval(timer);
+        setIsEditing(false);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [createdAt]);

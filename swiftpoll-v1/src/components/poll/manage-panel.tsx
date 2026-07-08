@@ -171,3 +171,13 @@ export function ManagePanel({
     setIsEditing(false);
     router.refresh();
   }
+
+  return (
+    <div className="rounded-[var(--radius)] border border-dashed p-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold">Creator controls</p>
+          <p className="text-xs text-[var(--color-muted-fg)]">
+            Only visible to you as the creator.
+          </p>
+        </div>

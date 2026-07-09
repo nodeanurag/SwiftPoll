@@ -117,6 +117,16 @@ export default function AnalyticsPage() {
               </div>
             </Card>
           </div>
+
+          {/* Activity Chart Card (Spacious layout) */}
+          <Card className="border border-border bg-card p-6 sm:p-8 rounded-2xl shadow-sm space-y-6">
+            <div>
+              <h3 className="font-serif text-xl font-normal tracking-tight text-fg">
+                Poll Activity over 30 Days
+              </h3>
+              <p className="text-xs text-muted-fg mt-1">Daily voting and poll creation volume</p>
+            </div>
+          </Card>
         </>
       )}
     </div>

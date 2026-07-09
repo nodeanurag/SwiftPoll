@@ -190,6 +190,45 @@ export default function AnalyticsPage() {
               </div>
             </div>
           </Card>
+
+          {/* Top Polls ranking list */}
+          <Card className="border border-border bg-card p-6 sm:p-8 rounded-2xl shadow-sm space-y-4">
+            <h3 className="font-serif text-lg font-normal tracking-tight text-fg flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-amber-400" />
+              <span>Top Performing Polls</span>
+            </h3>
+
+            {topPolls.length === 0 ? (
+              <p className="text-xs text-muted-fg py-4">No votes recorded yet.</p>
+            ) : (
+              <div className="divide-y divide-border/50">
+                {topPolls.map((poll, idx) => {
+                  const voteCount = poll.votes?.[0]?.count ?? 0;
+                  return (
+                    <div key={poll.id} className="flex justify-between items-center py-3.5 first:pt-0 last:pb-0">
+                      <div className="min-w-0 flex-1 pr-4">
+                        <p className="text-sm font-medium text-fg truncate">
+                          <span className="font-serif text-brand-500 mr-2 font-bold">#{idx + 1}</span>
+                          {poll.question}
+                        </p>
+                        <p className="text-[10px] text-muted-fg mt-0.5">
+                          Published {new Date(poll.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-sm font-bold font-serif text-fg">{voteCount} votes</span>
+                        <Link href={`/dashboard/analytics/${poll.slug}`}>
+                          <Button variant="secondary" size="sm" className="h-8 w-8 p-0" title="View details">
+                            <ArrowUpRight className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </Card>
         </>
       )}
     </div>

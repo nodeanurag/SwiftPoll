@@ -24,6 +24,7 @@ export default function AnalyticsPage() {
     const expired = p.closes_at ? new Date(p.closes_at).getTime() <= currentTime : false;
     return !p.closed && !expired;
   }).length;
+  const totalVotes = polls.reduce((acc, p) => acc + (p.votes?.[0]?.count ?? 0), 0);
 
   return null;
 }

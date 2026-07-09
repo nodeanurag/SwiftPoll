@@ -126,6 +126,16 @@ export default function AnalyticsPage() {
               </h3>
               <p className="text-xs text-muted-fg mt-1">Daily voting and poll creation volume</p>
             </div>
+
+            <div className="relative h-64 flex items-end justify-between gap-1 pt-6 border-b border-border pb-1">
+              {/* Horizontal Guide Lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[9px] text-muted-fg pt-6 pb-1">
+                <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">120</span></div>
+                <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">80</span></div>
+                <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">40</span></div>
+                <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">0</span></div>
+              </div>
+            </div>
           </Card>
         </>
       )}

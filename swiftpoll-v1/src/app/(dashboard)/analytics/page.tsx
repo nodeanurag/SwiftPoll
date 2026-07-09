@@ -18,5 +18,8 @@ export default function AnalyticsPage() {
   const { polls, loadingPolls, currentTime } = useDashboard();
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
 
+  // Stats calculation
+  const totalPolls = polls.length;
+
   return null;
 }

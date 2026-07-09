@@ -37,5 +37,16 @@ export default function AnalyticsPage() {
       .slice(0, 5);
   }, [polls]);
 
+  // 30-day activity data calculation
+  const activityData = useMemo(() => {
+    const data = [];
+    const now = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
+      const dayStr = date.getDate().toString();
+    }
+    return [];
+  }, [polls]);
+
   return null;
 }

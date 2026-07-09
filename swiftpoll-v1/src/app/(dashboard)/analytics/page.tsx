@@ -81,7 +81,11 @@ export default function AnalyticsPage() {
           <p className="text-xs text-muted-fg">Aggregating statistics...</p>
         </div>
       ) : (
-        null
+        <>
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          </div>
+        </>
       )}
     </div>
   );

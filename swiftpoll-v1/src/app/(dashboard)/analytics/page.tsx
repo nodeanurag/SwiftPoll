@@ -105,6 +105,17 @@ export default function AnalyticsPage() {
                 <p className="text-[10px] text-emerald-400 mt-0.5 font-medium">+5% from last week</p>
               </div>
             </Card>
+
+            <Card className="p-5 rounded-2xl flex flex-col justify-between h-28 border border-border bg-card shadow-sm">
+              <div className="flex justify-between items-start">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-orange-400">Total Votes</span>
+                <ExternalLink className="h-4.5 w-4.5 text-orange-400" />
+              </div>
+              <div>
+                <p className="text-3xl font-bold font-serif text-fg">{totalVotes.toLocaleString()}</p>
+                <p className="text-[10px] text-orange-400 mt-0.5 font-medium">+22% from last week</p>
+              </div>
+            </Card>
           </div>
         </>
       )}

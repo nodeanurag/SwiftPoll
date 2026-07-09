@@ -26,5 +26,16 @@ export default function AnalyticsPage() {
   }).length;
   const totalVotes = polls.reduce((acc, p) => acc + (p.votes?.[0]?.count ?? 0), 0);
 
+  // Sort polls by vote count descending for Top Polls
+  const topPolls = useMemo(() => {
+    return [...polls]
+      .sort((a, b) => {
+        const vA = a.votes?.[0]?.count ?? 0;
+        const vB = b.votes?.[0]?.count ?? 0;
+        return vB - vA;
+      })
+      .slice(0, 5);
+  }, [polls]);
+
   return null;
 }

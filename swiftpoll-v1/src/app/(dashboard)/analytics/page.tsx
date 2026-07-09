@@ -69,7 +69,11 @@ export default function AnalyticsPage() {
 
   return (
     <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto w-full">
-      Placeholder
+      {/* Page Header */}
+      <div>
+        <h1 className="font-serif text-3xl font-normal text-fg">Analytics</h1>
+        <p className="text-xs text-muted-fg mt-1">Aggregate workspace activity, vote volume trends, and top poll rankings.</p>
+      </div>
     </div>
   );
 }

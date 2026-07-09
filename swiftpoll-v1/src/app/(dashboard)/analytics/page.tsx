@@ -67,5 +67,9 @@ export default function AnalyticsPage() {
     return data;
   }, [polls]);
 
-  return null;
+  return (
+    <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto w-full">
+      Placeholder
+    </div>
+  );
 }

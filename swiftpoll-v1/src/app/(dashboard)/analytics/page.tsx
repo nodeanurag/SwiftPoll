@@ -74,6 +74,15 @@ export default function AnalyticsPage() {
         <h1 className="font-serif text-3xl font-normal text-fg">Analytics</h1>
         <p className="text-xs text-muted-fg mt-1">Aggregate workspace activity, vote volume trends, and top poll rankings.</p>
       </div>
+
+      {loadingPolls ? (
+        <div className="py-24 flex flex-col items-center justify-center space-y-3">
+          <Loader className="h-8 w-8 text-brand-500 animate-spin" />
+          <p className="text-xs text-muted-fg">Aggregating statistics...</p>
+        </div>
+      ) : (
+        null
+      )}
     </div>
   );
 }

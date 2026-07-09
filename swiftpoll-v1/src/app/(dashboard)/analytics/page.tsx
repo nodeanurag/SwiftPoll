@@ -44,6 +44,14 @@ export default function AnalyticsPage() {
     for (let i = 29; i >= 0; i--) {
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
       const dayStr = date.getDate().toString();
+      
+      const dayPolls = polls.filter(p => {
+        const pDate = new Date(p.created_at);
+        return pDate.getDate() === date.getDate() && pDate.getMonth() === date.getMonth();
+      });
+      
+      const pollsCount = dayPolls.length;
+      const votesCount = dayPolls.reduce((acc, p) => acc + (p.votes?.[0]?.count ?? 0), 0);
     }
     return [];
   }, [polls]);

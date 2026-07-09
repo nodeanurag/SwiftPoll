@@ -20,6 +20,10 @@ export default function AnalyticsPage() {
 
   // Stats calculation
   const totalPolls = polls.length;
+  const activePolls = polls.filter((p) => {
+    const expired = p.closes_at ? new Date(p.closes_at).getTime() <= currentTime : false;
+    return !p.closed && !expired;
+  }).length;
 
   return null;
 }

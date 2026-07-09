@@ -135,6 +135,59 @@ export default function AnalyticsPage() {
                 <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">40</span></div>
                 <div className="border-t border-dashed border-border w-full relative"><span className="absolute -top-2 left-0 bg-card pr-1 font-semibold">0</span></div>
               </div>
+
+              {/* Bars */}
+              {activityData.map((d, idx) => {
+                const maxVal = 120;
+                const votesHeight = Math.min(100, (d.votes / maxVal) * 100);
+                const pollsHeight = Math.min(100, (d.polls / maxVal) * 100);
+
+                return (
+                  <div
+                    key={idx}
+                    className="flex-1 flex items-end justify-center gap-1 group relative cursor-pointer h-full animate-fade-in-up"
+                    onMouseEnter={() => setHoveredBar(idx)}
+                    onMouseLeave={() => setHoveredBar(null)}
+                  >
+                    {/* Blue Votes bar */}
+                    <div
+                      style={{ height: `${votesHeight}%` }}
+                      className="w-1.5 bg-blue-500 rounded-t-[2px] transition-all duration-300 group-hover:bg-blue-400"
+                    />
+                    {/* Pink Polls bar */}
+                    <div
+                      style={{ height: `${pollsHeight}%` }}
+                      className="w-1.5 bg-pink-500 rounded-t-[2px] transition-all duration-300 group-hover:bg-pink-400"
+                    />
+
+                    {hoveredBar === idx && (
+                      <div className="absolute bottom-full mb-2 bg-[#1e293b] text-white text-[11px] p-2.5 rounded-xl shadow-xl z-20 w-32 text-center pointer-events-none transition-all duration-200">
+                        <p className="font-semibold text-gray-300 border-b border-gray-700 pb-1 mb-1">{d.dateLabel}</p>
+                        <p className="text-blue-400">Votes: {d.votes}</p>
+                        <p className="text-pink-400">Polls: {d.polls}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* X-axis labels */}
+            <div className="flex justify-between text-xs text-muted-fg px-1">
+              <span>30 days ago</span>
+              <span>15 days ago</span>
+              <span>Today</span>
+            </div>
+
+            <div className="flex items-center gap-4 text-xs text-muted-fg pt-2">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
+                <span>Votes Submitted</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-pink-500" />
+                <span>Polls Created</span>
+              </div>
             </div>
           </Card>
         </>

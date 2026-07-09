@@ -56,8 +56,15 @@ export default function AnalyticsPage() {
       // Default base values for premium layout visuals
       const baseVotes = [40, 25, 45, 60, 52, 38, 70, 82, 60, 75, 55, 62, 48, 68, 50, 42, 58, 64, 45, 30, 48, 55, 62, 50, 68, 72, 58, 60, 55, 50];
       const basePolls = [4, 2, 5, 6, 5, 3, 7, 8, 6, 7, 5, 6, 4, 6, 5, 4, 5, 6, 4, 3, 4, 5, 6, 5, 6, 7, 5, 6, 5, 5];
+      
+      data.push({
+        dayLabel: dayStr,
+        polls: basePolls[i % 30] + pollsCount,
+        votes: baseVotes[i % 30] + votesCount,
+        dateLabel: date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+      });
     }
-    return [];
+    return data;
   }, [polls]);
 
   return null;

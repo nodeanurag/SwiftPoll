@@ -101,6 +101,9 @@ export default function FeaturesPage() {
           <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight">
             Flexible controls without administrative bloat
           </h2>
+          <p className="text-sm text-[var(--color-ash)] leading-relaxed">
+            SwiftPoll makes administration simple. Manage your active polls directly from your browser. Close voting, modify settings, or purge outdated results instantly using securely generated, client-side admin tokens.
+          </p>
         </div>
       </section>
     </div>

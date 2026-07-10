@@ -43,6 +43,16 @@ export default function FeaturesPage() {
             Prevent voting fraud natively. SwiftPoll checks unique device parameters and client IP hashes to ensure one vote per person.
           </p>
         </Card>
+
+        <Card className="p-6 space-y-4 border border-[var(--color-border)] bg-[var(--color-card)] shadow-sm">
+          <div className="h-10 w-10 rounded-lg bg-[var(--color-subtle)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)]">
+            <BarChart3 className="h-5 w-5 text-[var(--color-brand-500)]" />
+          </div>
+          <h3 className="font-serif text-xl font-normal">Creator Dashboard</h3>
+          <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed">
+            Track metrics and manage active polls in one central hub. View voter turnouts and metrics, close or reopen polls, and delete outdated entries in real time.
+          </p>
+        </Card>
       </div>
     </div>
   );

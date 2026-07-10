@@ -1,3 +1,4 @@
+// Features Page component showcasing SwiftPoll capabilities
 import { Card } from "@/components/ui/card";
 import { 
   Zap, 

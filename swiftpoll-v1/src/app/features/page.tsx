@@ -94,6 +94,14 @@ export default function FeaturesPage() {
             className="rounded-xl shadow-lg w-full object-cover max-h-[300px] animate-float" 
           />
         </div>
+        <div className="space-y-6">
+          <span className="text-[var(--color-brand-500)] font-medium text-xs tracking-[0.12em] uppercase">
+            Control Center
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight">
+            Flexible controls without administrative bloat
+          </h2>
+        </div>
       </section>
     </div>
   );

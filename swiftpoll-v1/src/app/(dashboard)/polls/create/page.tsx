@@ -3,7 +3,15 @@
 export default function CreatePollPage() {
   return (
     <div className="max-w-4xl mx-auto w-full px-6 py-12 space-y-8 animate-fade-in-up">
-      {/* Container shell */}
+      {/* Page Header */}
+      <div>
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal text-fg tracking-tight">
+          Create a New Poll
+        </h1>
+        <p className="text-xs text-muted-fg mt-1.5 leading-relaxed">
+          Author questions, add custom choices, configure rate limits, and publish live polls instantly.
+        </p>
+      </div>
     </div>
   );
 }

@@ -53,6 +53,16 @@ export default function FeaturesPage() {
             Track metrics and manage active polls in one central hub. View voter turnouts and metrics, close or reopen polls, and delete outdated entries in real time.
           </p>
         </Card>
+
+        <Card className="p-6 space-y-4 border border-[var(--color-border)] bg-[var(--color-card)] shadow-sm">
+          <div className="h-10 w-10 rounded-lg bg-[var(--color-subtle)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)]">
+            <Clock className="h-5 w-5 text-blue-500" />
+          </div>
+          <h3 className="font-serif text-xl font-normal">Poll Closures & Expiry</h3>
+          <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed">
+            Set an optional close date and time on creation. SwiftPoll automatically closes the ballot at the specified timestamp to conclude voting cleanly.
+          </p>
+        </Card>
       </div>
     </div>
   );

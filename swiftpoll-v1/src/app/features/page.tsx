@@ -73,6 +73,16 @@ export default function FeaturesPage() {
             Every element is engineered with premium aesthetics and responsive design, providing a seamless user experience whether voters are on phones, tablets, or laptops.
           </p>
         </Card>
+
+        <Card className="p-6 space-y-4 border border-[var(--color-border)] bg-[var(--color-card)] shadow-sm">
+          <div className="h-10 w-10 rounded-lg bg-[var(--color-subtle)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)]">
+            <LineChart className="h-5 w-5 text-pink-500" />
+          </div>
+          <h3 className="font-serif text-xl font-normal">Detailed Results Charts</h3>
+          <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed">
+            Display winners clearly with custom brand-colored progress bars and check indicators highlighting the options voted for by the user.
+          </p>
+        </Card>
       </div>
     </div>
   );

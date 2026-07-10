@@ -84,6 +84,10 @@ export default function FeaturesPage() {
           </p>
         </Card>
       </div>
+
+      {/* Product visual section */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center py-12 border-t border-[var(--color-border)] mt-16 pt-16">
+      </section>
     </div>
   );
 }

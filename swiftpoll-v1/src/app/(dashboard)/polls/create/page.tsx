@@ -1,6 +1,11 @@
 "use client";
 
+import { useDashboard } from "@/context/dashboard-context";
+import { Card } from "@/components/ui/card";
+
 export default function CreatePollPage() {
+  const { activeWorkspace } = useDashboard();
+
   return (
     <div className="max-w-4xl mx-auto w-full px-6 py-12 space-y-8 animate-fade-in-up">
       {/* Page Header */}
@@ -12,6 +17,11 @@ export default function CreatePollPage() {
           Author questions, add custom choices, configure rate limits, and publish live polls instantly.
         </p>
       </div>
+
+      {/* Spacious Notion-Style Container */}
+      <Card className="border border-border bg-card p-6 sm:p-10 rounded-2xl shadow-lg relative overflow-hidden">
+        {/* Editor container */}
+      </Card>
     </div>
   );
 }

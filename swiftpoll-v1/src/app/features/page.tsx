@@ -33,6 +33,16 @@ export default function FeaturesPage() {
             Witness options dynamically slide and update in real-time as users vote. Built on Supabase Realtime for instant synchronization across all devices.
           </p>
         </Card>
+
+        <Card className="p-6 space-y-4 border border-[var(--color-border)] bg-[var(--color-card)] shadow-sm">
+          <div className="h-10 w-10 rounded-lg bg-[var(--color-subtle)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)]">
+            <ShieldCheck className="h-5 w-5 text-green-500" />
+          </div>
+          <h3 className="font-serif text-xl font-normal">IP & Device Rate Limiting</h3>
+          <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed">
+            Prevent voting fraud natively. SwiftPoll checks unique device parameters and client IP hashes to ensure one vote per person.
+          </p>
+        </Card>
       </div>
     </div>
   );

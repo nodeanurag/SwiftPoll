@@ -87,6 +87,13 @@ export default function FeaturesPage() {
 
       {/* Product visual section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center py-12 border-t border-[var(--color-border)] mt-16 pt-16">
+        <div className="relative rounded-[24px] bg-[#f9f2fd] p-6 border border-[var(--color-border)] flex justify-center items-center overflow-hidden">
+          <img 
+            src="/control-center-graphic.png" 
+            alt="Poll configuration interface" 
+            className="rounded-xl shadow-lg w-full object-cover max-h-[300px] animate-float" 
+          />
+        </div>
       </section>
     </div>
   );

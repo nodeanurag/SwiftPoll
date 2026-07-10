@@ -2,6 +2,7 @@
 
 import { useDashboard } from "@/context/dashboard-context";
 import { Card } from "@/components/ui/card";
+import { Suspense } from "react";
 
 export default function CreatePollPage() {
   const { activeWorkspace } = useDashboard();
@@ -20,7 +21,13 @@ export default function CreatePollPage() {
 
       {/* Spacious Notion-Style Container */}
       <Card className="border border-border bg-card p-6 sm:p-10 rounded-2xl shadow-lg relative overflow-hidden">
-        {/* Editor container */}
+        <Suspense fallback={
+          <div className="py-24 text-center text-xs text-muted-fg animate-pulse">
+            Loading spacious editor controls...
+          </div>
+        }>
+          {/* Form component placeholder */}
+        </Suspense>
       </Card>
     </div>
   );

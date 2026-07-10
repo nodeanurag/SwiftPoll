@@ -1,6 +1,7 @@
 "use client";
 
 import { useDashboard } from "@/context/dashboard-context";
+import { CreatePollForm } from "@/components/poll/create-poll-form";
 import { Card } from "@/components/ui/card";
 import { Suspense } from "react";
 
@@ -26,7 +27,7 @@ export default function CreatePollPage() {
             Loading spacious editor controls...
           </div>
         }>
-          {/* Form component placeholder */}
+          <CreatePollForm workspaceId={activeWorkspace?.id} />
         </Suspense>
       </Card>
     </div>

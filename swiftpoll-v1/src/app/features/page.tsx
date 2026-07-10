@@ -24,6 +24,15 @@ export default function FeaturesPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card className="p-6 space-y-4 border border-[var(--color-border)] bg-[var(--color-card)] shadow-sm">
+          <div className="h-10 w-10 rounded-lg bg-[var(--color-subtle)] border border-[var(--color-border)] flex items-center justify-center text-[var(--color-fg)]">
+            <Zap className="h-5 w-5 text-amber-500 animate-pulse" />
+          </div>
+          <h3 className="font-serif text-xl font-normal">Real-Time Syncing</h3>
+          <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed">
+            Witness options dynamically slide and update in real-time as users vote. Built on Supabase Realtime for instant synchronization across all devices.
+          </p>
+        </Card>
       </div>
     </div>
   );

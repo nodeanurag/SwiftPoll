@@ -22,6 +22,9 @@ export default function FeaturesPage() {
           SwiftPoll is designed from the ground up to offer real-time responsiveness, creator administrative power, and beautiful interfaces.
         </p>
       </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      </div>
     </div>
   );
 }

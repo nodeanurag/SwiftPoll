@@ -5,6 +5,18 @@ import Link from "next/link";
 import { ArrowLeft, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function AnalyticsHeader() {
+export interface AnalyticsHeaderProps {
+  question?: string;
+  activeViewers: { id: string; name: string; email: string }[];
+  onExportCSV: () => void;
+  onExportJSON: () => void;
+}
+
+export function AnalyticsHeader({
+  question,
+  activeViewers,
+  onExportCSV,
+  onExportJSON,
+}: AnalyticsHeaderProps) {
   return <div>AnalyticsHeader Boilerplate</div>;
 }

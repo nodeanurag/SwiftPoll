@@ -42,6 +42,41 @@ export function AnalyticsDiscussion({
     void loadComments();
   }, [pollId]);
 
+  // Realtime comments subscription
+  useEffect(() => {
+    if (!pollId) return;
+
+    const supabase = getBrowserClient();
+    const commentsChannel = supabase
+      .channel(`poll-comments-${pollId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "poll_comments",
+          filter: `poll_id=eq.${pollId}`,
+        },
+        (payload) => {
+          if (payload.eventType === "INSERT") {
+            const newComment = payload.new as PollComment;
+            setComments((prev) => {
+              if (prev.some((c) => c.id === newComment.id)) return prev;
+              return [...prev, newComment];
+            });
+          } else if (payload.eventType === "DELETE") {
+            const oldCommentId = (payload.old as { id: string }).id;
+            setComments((prev) => prev.filter((c) => c.id !== oldCommentId));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      void commentsChannel.unsubscribe();
+    };
+  }, [pollId]);
+
   const handlePostComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentText.trim() || !pollId) return;

@@ -11,10 +11,8 @@ import {
   PollAnalyticsResult, 
   AnalyticsOption 
 } from "@/lib/actions/analytics";
-import { ArrowLeft, ShieldAlert, Loader as LoaderIcon } from "lucide-react";
+import { ShieldAlert, Loader as LoaderIcon, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-// Import subcomponents
 import { AnalyticsHeader } from "./components/analytics-header";
 import { AnalyticsMetrics } from "./components/analytics-metrics";
 import { AnalyticsAiSummary } from "./components/analytics-ai-summary";
@@ -420,7 +418,7 @@ export default function AnalyticsPage() {
       <AnalyticsActivityLog 
         totalVotes={totalVotes}
         votes={data.votes}
-        options={data.options}
+        options={data.options || []}
       />
 
       {/* Collaborative Workspace Discussion Board */}

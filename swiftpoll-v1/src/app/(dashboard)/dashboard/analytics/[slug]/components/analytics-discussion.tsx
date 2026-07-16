@@ -25,5 +25,41 @@ export function AnalyticsDiscussion({
   slug,
   currentUser,
 }: AnalyticsDiscussionProps) {
+  const [comments, setComments] = useState<PollComment[]>([]);
+  const [commentText, setCommentText] = useState("");
+
+  // Comments Load Effect
+  useEffect(() => {
+    if (!pollId) return;
+    
+    async function loadComments() {
+      const res = await getPollComments(pollId);
+      if (res.ok && res.data) {
+        setComments(res.data);
+      }
+    }
+    
+    void loadComments();
+  }, [pollId]);
+
+  const handlePostComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentText.trim() || !pollId) return;
+    
+    try {
+      const supabase = getBrowserClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) return;
+
+      const res = await postPollComment(pollId, commentText, token);
+      if (res.ok && res.data) {
+        setCommentText("");
+      }
+    } catch (err) {
+      console.error("Could not post comment:", err);
+    }
+  };
+
   return <div>AnalyticsDiscussion Boilerplate</div>;
 }

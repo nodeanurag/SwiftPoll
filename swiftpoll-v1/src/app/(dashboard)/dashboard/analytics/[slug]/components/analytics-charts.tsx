@@ -16,5 +16,72 @@ export function AnalyticsCharts({
   sortedOptions,
   votesPerOption,
 }: AnalyticsChartsProps) {
-  return <div>AnalyticsCharts Boilerplate</div>;
+  const [chartType, setChartType] = useState<"bar" | "donut">("bar");
+
+  return (
+    <Card className="p-6 space-y-6 shadow-sm bg-card text-fg border border-border">
+      <div className="flex justify-between items-center flex-wrap gap-3 border-b pb-4 border-[var(--color-border)]">
+        <div>
+          <h3 className="font-serif text-lg font-normal text-fg">Response Share</h3>
+          <p className="text-xs text-[var(--color-muted-fg)]">Percentage spread of vote outcomes</p>
+        </div>
+        <div className="flex rounded-lg border border-[var(--color-border)] bg-[var(--color-subtle)] p-0.5">
+          <button
+            onClick={() => setChartType("bar")}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1 transition-all duration-200 cursor-pointer ${
+              chartType === "bar" 
+                ? "bg-[var(--color-card)] text-[var(--color-fg)] shadow-sm border border-[var(--color-border)]" 
+                : "text-[var(--color-muted-fg)] hover:text-[var(--color-fg)]"
+            }`}
+          >
+            <BarChart3 className="h-3.5 w-3.5" />
+            Bar View
+          </button>
+          <button
+            onClick={() => setChartType("donut")}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md flex items-center gap-1 transition-all duration-200 cursor-pointer ${
+              chartType === "donut" 
+                ? "bg-[var(--color-card)] text-[var(--color-fg)] shadow-sm border border-[var(--color-border)]" 
+                : "text-[var(--color-muted-fg)] hover:text-[var(--color-fg)]"
+            }`}
+          >
+            <PieChart className="h-3.5 w-3.5" />
+            Donut View
+          </button>
+        </div>
+      </div>
+
+      {totalVotes === 0 ? (
+        <div className="py-16 text-center space-y-2">
+          <p className="text-sm font-medium text-[var(--color-muted-fg)]">Awaiting responses</p>
+          <p className="text-xs text-[var(--color-muted-fg)] max-w-xs mx-auto leading-relaxed">
+            No votes have been cast on this poll yet. Once voters submit their choices, charts will update instantly.
+          </p>
+        </div>
+      ) : chartType === "bar" ? (
+        <div className="space-y-4 py-2">
+          {sortedOptions.map((opt) => {
+            const count = votesPerOption[opt.id] ?? 0;
+            const percentage = (count / totalVotes) * 100;
+            return (
+              <div key={opt.id} className="space-y-1.5">
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="truncate pr-4 text-fg">{opt.text}</span>
+                  <span className="text-fg">{count} vote{count !== 1 ? "s" : ""} ({percentage.toFixed(0)}%)</span>
+                </div>
+                <div className="h-7 w-full bg-[var(--color-subtle)] rounded-md overflow-hidden relative border border-[var(--color-border)]">
+                  <div 
+                    className="h-full bg-[var(--color-brand-600)] transition-all duration-700 ease-out"
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div>Donut View Placeholder</div>
+      )}
+    </Card>
+  );
 }

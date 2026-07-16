@@ -12,6 +12,18 @@ import {
 } from "@/lib/actions/comments";
 import { cn } from "@/lib/utils/cn";
 
-export function AnalyticsDiscussion() {
+export interface AnalyticsDiscussionProps {
+  pollId: string;
+  workspaceId: string;
+  slug: string;
+  currentUser: { id: string } | null;
+}
+
+export function AnalyticsDiscussion({
+  pollId,
+  workspaceId,
+  slug,
+  currentUser,
+}: AnalyticsDiscussionProps) {
   return <div>AnalyticsDiscussion Boilerplate</div>;
 }

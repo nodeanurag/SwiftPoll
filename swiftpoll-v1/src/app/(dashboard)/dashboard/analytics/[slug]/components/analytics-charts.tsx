@@ -18,6 +18,53 @@ export function AnalyticsCharts({
 }: AnalyticsChartsProps) {
   const [chartType, setChartType] = useState<"bar" | "donut">("bar");
 
+  // Donut chart path layout helpers
+  const donutSegments = useMemo(() => {
+    if (totalVotes === 0 || !sortedOptions.length) return [];
+    
+    let currentAngle = 0;
+    const colors = [
+      "var(--color-brand-600)",
+      "#3b82f6",
+      "#10b981",
+      "#f59e0b",
+      "#ec4899",
+      "#8b5cf6",
+      "#06b6d4",
+      "#84cc16",
+    ];
+
+    return sortedOptions.map((opt, i) => {
+      const count = votesPerOption[opt.id] ?? 0;
+      const percentage = (count / totalVotes) * 100;
+      const angle = (count / totalVotes) * 360;
+
+      // Circle layout mathematics
+      const r = 50;
+      const cx = 60;
+      const cy = 60;
+      
+      const x1 = cx + r * Math.cos((currentAngle - 90) * Math.PI / 180);
+      const y1 = cy + r * Math.sin((currentAngle - 90) * Math.PI / 180);
+      
+      currentAngle += angle;
+      
+      const x2 = cx + r * Math.cos((currentAngle - 90) * Math.PI / 180);
+      const y2 = cy + r * Math.sin((currentAngle - 90) * Math.PI / 180);
+
+      const largeArc = angle > 180 ? 1 : 0;
+      const pathData = `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+
+      return {
+        pathData,
+        color: colors[i % colors.length],
+        percentage: percentage.toFixed(1),
+        text: opt.text,
+        count
+      };
+    });
+  }, [sortedOptions, votesPerOption, totalVotes]);
+
   return (
     <Card className="p-6 space-y-6 shadow-sm bg-card text-fg border border-border">
       <div className="flex justify-between items-center flex-wrap gap-3 border-b pb-4 border-[var(--color-border)]">
@@ -80,7 +127,31 @@ export function AnalyticsCharts({
           })}
         </div>
       ) : (
-        <div>Donut View Placeholder</div>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 py-4">
+          <svg viewBox="0 0 120 120" className="h-44 w-44 md:h-52 md:w-52 transform -rotate-90">
+            {donutSegments.map((seg, i) => (
+              <path
+                key={i}
+                d={seg.pathData}
+                fill={seg.color}
+                className="transition-transform duration-300 hover:scale-105"
+              />
+            ))}
+          </svg>
+          <div className="space-y-2.5 max-w-sm w-full">
+            {donutSegments.map((seg, i) => (
+              <div key={i} className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 min-w-0 pr-4">
+                  <div className="h-3.5 w-3.5 shrink-0 rounded" style={{ backgroundColor: seg.color }} />
+                  <span className="truncate font-medium text-fg">{seg.text}</span>
+                </div>
+                <span className="shrink-0 text-[var(--color-muted-fg)] font-medium">
+                  {seg.count} ({seg.percentage}%)
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </Card>
   );

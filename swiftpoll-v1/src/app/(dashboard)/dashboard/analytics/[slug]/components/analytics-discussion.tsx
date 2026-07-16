@@ -167,8 +167,25 @@ export function AnalyticsDiscussion({
         )}
       </div>
 
-      {/* Comment Submission Form Placeholder */}
-      <div>Form Placeholder</div>
+      {/* New Comment Submission Form */}
+      {currentUser ? (
+        <form onSubmit={handlePostComment} className="flex gap-2 items-end">
+          <textarea
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="Write a workspace retrospective note or feedback..."
+            className="w-full min-h-[60px] p-3 text-xs bg-[var(--color-subtle)] border border-[var(--color-border)] rounded-xl outline-none focus:border-brand-500 transition-all text-[var(--color-fg)] resize-none"
+            maxLength={400}
+          />
+          <Button type="submit" size="sm" className="h-10 cursor-pointer text-xs bg-[var(--color-fg)] text-[var(--color-bg)] hover:bg-[var(--color-muted-fg)] px-4">
+            Send
+          </Button>
+        </form>
+      ) : (
+        <p className="text-xs text-[var(--color-muted-fg)] text-center">
+          Please sign in to participate in the workspace discussion.
+        </p>
+      )}
     </Card>
   );
 }

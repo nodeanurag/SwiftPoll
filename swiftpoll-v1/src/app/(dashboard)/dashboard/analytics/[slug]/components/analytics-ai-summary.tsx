@@ -77,5 +77,66 @@ export function AnalyticsAiSummary({
     }
   };
 
-  return <div>AnalyticsAiSummary Boilerplate</div>;
+  return (
+    <Card className="p-6 space-y-4 border border-brand-500/20 bg-brand-500/5 dark:bg-brand-900/5 shadow-sm relative overflow-hidden">
+      {/* Subtle decorative glow */}
+      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-brand-500/10 blur-3xl pointer-events-none" />
+
+      <div className="flex justify-between items-start flex-wrap gap-4">
+        <div className="flex gap-3">
+          <span className="text-xl">✨</span>
+          <div className="space-y-1">
+            <h3 className="font-serif text-lg font-normal text-brand-900 dark:text-brand-100 flex items-center gap-1.5">
+              AI Smart Summarizer
+            </h3>
+            <p className="text-xs text-[var(--color-muted-fg)] leading-relaxed max-w-xl">
+              Get an automated overview explaining choice margins, voter patterns, and clustered commentary feedback.
+            </p>
+          </div>
+        </div>
+        <Button
+          onClick={handleGenerateAiSummary}
+          disabled={aiSummaryLoading || totalVotes === 0}
+          className="text-xs gap-1.5 shrink-0 bg-[var(--color-fg)] text-[var(--color-bg)] hover:bg-[var(--color-muted-fg)] cursor-pointer font-medium"
+          size="sm"
+        >
+          {aiSummaryLoading ? <LoaderIcon className="h-3.5 w-3.5 animate-spin" /> : "⚡"}
+          {aiSummaryLoading ? "Analyzing..." : "Generate AI Insights"}
+        </Button>
+      </div>
+
+      {aiSummaryError && (
+        <p className="text-xs text-red-600 mt-2 font-medium">{aiSummaryError}</p>
+      )}
+
+      {aiSummary && (
+        <div className="mt-4 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-card)] space-y-4 text-sm leading-relaxed animate-fade-in-up">
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-brand-600">Choice Winner Insights</span>
+              <p className="text-sm font-medium text-[var(--color-fg)]">{aiSummary.winnerSummary}</p>
+            </div>
+            <div className="h-px bg-[var(--color-border)] w-full" />
+            <div className="space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-brand-600">Turnout & Patterns</span>
+              <p className="text-sm text-[var(--color-muted-fg)]">{aiSummary.trendsSummary}</p>
+            </div>
+            {aiSummary.commentsClustering && aiSummary.commentsClustering.length > 0 && (
+              <>
+                <div className="h-px bg-[var(--color-border)] w-full" />
+                <div className="space-y-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-brand-600">Voter Feedback Clusters</span>
+                  <ul className="list-disc pl-4 space-y-1.5 text-xs text-[var(--color-muted-fg)]">
+                    {aiSummary.commentsClustering.map((cluster, i) => (
+                      <li key={i}>{cluster}</li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </Card>
+  );
 }

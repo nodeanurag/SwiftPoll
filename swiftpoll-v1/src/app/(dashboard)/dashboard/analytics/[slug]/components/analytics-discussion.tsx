@@ -96,5 +96,79 @@ export function AnalyticsDiscussion({
     }
   };
 
-  return <div>AnalyticsDiscussion Boilerplate</div>;
+  const handleDeleteComment = async (commentId: string) => {
+    try {
+      const supabase = getBrowserClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) return;
+
+      const res = await deletePollComment(commentId, token);
+      if (res.ok) {
+        setComments(prev => prev.filter(c => c.id !== commentId));
+      }
+    } catch (err) {
+      console.error("Could not delete comment:", err);
+    }
+  };
+
+  return (
+    <Card className="p-6 space-y-6 shadow-sm border border-brand-500/10 bg-card text-fg">
+      <div className="flex justify-between items-center border-b pb-3 border-[var(--color-border)]">
+        <div>
+          <h3 className="font-serif text-lg font-normal flex items-center gap-2 text-fg">
+            Workspace Discussion
+          </h3>
+          <p className="text-xs text-[var(--color-muted-fg)]">
+            Private retrospective feedback thread for workspace team members
+          </p>
+        </div>
+        <span className="text-[10px] bg-brand-500/10 text-brand-600 font-bold px-2.5 py-0.5 rounded-full dark:bg-brand-900/20">
+          Workspace Only
+        </span>
+      </div>
+
+      {/* Comments Feed List */}
+      <div className="space-y-4 max-h-80 overflow-y-auto pr-2">
+        {comments.length === 0 ? (
+          <p className="text-xs text-[var(--color-muted-fg)] text-center py-6 italic">
+            No discussion comments yet. Be the first to start the retrospective!
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {comments.map((comment) => (
+              <div key={comment.id} className="flex gap-3 items-start group relative">
+                <div className="h-8 w-8 rounded-full bg-brand-600 text-white flex items-center justify-center text-xs font-bold shrink-0">
+                  {comment.user_name.substring(0, 2).toUpperCase()}
+                </div>
+                <div className="space-y-1 bg-[var(--color-subtle)] p-3 rounded-2xl max-w-xl text-xs relative flex-1 text-fg">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-[var(--color-fg)]">{comment.user_name}</span>
+                    <span className="text-[9px] text-[var(--color-muted-fg)]">
+                      {new Date(comment.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <p className="text-[var(--color-fg)] break-words leading-relaxed whitespace-pre-wrap">{comment.content}</p>
+                  
+                  {/* Delete button (displays on hover) */}
+                  {currentUser?.id === comment.user_id && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className="absolute right-3 top-3 text-[10px] text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer font-bold"
+                      title="Delete comment"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Comment Submission Form Placeholder */}
+      <div>Form Placeholder</div>
+    </Card>
+  );
 }

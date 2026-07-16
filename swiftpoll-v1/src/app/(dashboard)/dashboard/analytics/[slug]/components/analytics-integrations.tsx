@@ -173,11 +173,47 @@ export function AnalyticsIntegrations({
       )}
 
       {activeIntegrationTab === "webhooks" && (
-        <div>Slack & Discord Content Placeholder</div>
+        <div className="space-y-3 text-xs leading-relaxed">
+          <h4 className="font-semibold text-sm text-fg">Slack & Discord Automated Block Styling</h4>
+          <p className="text-[var(--color-muted-fg)]">
+            SwiftPoll detects Slack and Discord webhook formats automatically. When you configure their webhook urls, we transform the raw JSON events into rich layout blocks:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="p-3 border border-[var(--color-border)] bg-[var(--color-subtle)] rounded-xl space-y-1.5">
+              <span className="font-bold text-[var(--color-fg)]">💬 Discord Embeds</span>
+              <p className="text-[var(--color-muted-fg)] text-[11px]">
+                Renders vote notifications inside a colored embed card containing poll question metadata, selection margins, timestamp, and result links.
+              </p>
+            </div>
+            <div className="p-3 border border-[var(--color-border)] bg-[var(--color-subtle)] rounded-xl space-y-1.5">
+              <span className="font-bold text-[var(--color-fg)]">💬 Slack Markdown Blocks</span>
+              <p className="text-[var(--color-muted-fg)] text-[11px]">
+                Uses Slack&apos;s Block Kit markdown sections to present clean retrospectives, choice indicators, and direct result links inside your chat channel.
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {activeIntegrationTab === "payload" && (
-        <div>JSON Payload Content Placeholder</div>
+        <div className="space-y-3 text-xs leading-relaxed">
+          <h4 className="font-semibold text-sm font-serif text-fg">Standard JSON Webhook Schema</h4>
+          <p className="text-[var(--color-muted-fg)]">
+            Custom server endpoints will receive HTTP POST requests with a raw JSON body matching the structure below:
+          </p>
+          <div className="bg-[var(--color-subtle)] p-3 rounded-lg border border-[var(--color-border)] font-mono text-[10px] text-[var(--color-fg)] overflow-x-auto">
+            <pre>{`{
+  "event": "poll.vote",
+  "poll_id": "8afc4632-1594-4d89-980b-df783cb1a4bc",
+  "poll_slug": "next-js-stacks",
+  "question": "What is your primary choice for web frontend?",
+  "option_ids": [
+    "ff23ca3e-d890-482a-a9bd-83ca231bfa2b"
+  ],
+  "voted_at": "2026-07-07T11:42:10Z"
+}`}</pre>
+          </div>
+        </div>
       )}
     </Card>
   );

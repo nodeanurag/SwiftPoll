@@ -414,9 +414,158 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     );
   }
 
+  // Public/Marketing Mode
   return (
     <>
-      {children}
+      <header className="sticky top-0 z-50 w-full border-b border-border bg-bg/90 backdrop-blur-md">
+        <div className="mx-auto flex h-18 max-w-[1536px] items-center justify-between px-6 sm:px-12">
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 transition-transform active:scale-95"
+          >
+            <Image
+              src="/logo.svg"
+              alt="SwiftPoll Logo"
+              width={48}
+              height={48}
+              className="rounded-xl object-contain"
+            />
+            <span className="font-serif text-2xl font-normal tracking-tight text-fg">
+              SwiftPoll
+            </span>
+          </Link>
+
+          <NavLinks />
+
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            <AuthButton />
+            <Link
+              href="/"
+              className="inline-flex h-11 items-center justify-center rounded-[var(--radius)] bg-brand-500 px-5 py-2 text-sm font-medium text-bg transition-all duration-300 hover:bg-brand-600 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(159,141,252,0.2)] dark:hover:shadow-[0_0_15px_rgba(159,141,252,0.4)] active:translate-y-0 active:scale-[0.98] border border-brand-500"
+            >
+              <Plus className="mr-1.5 h-4 w-4" />
+              Create Poll
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <main className="w-full flex-1 relative z-10">
+        {children}
+      </main>
+
+      <footer className="w-full border-t border-border bg-bg pt-16 pb-12">
+        <div className="mx-auto w-full max-w-[1536px] px-6 sm:px-12 space-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-border">
+            {/* Brand Column */}
+            <div className="md:col-span-5 space-y-4">
+              <Link href="/" className="flex items-center gap-2.5">
+                <Image
+                  src="/logo.svg"
+                  alt="SwiftPoll Logo"
+                  width={40}
+                  height={40}
+                  className="rounded-[10px] object-contain"
+                />
+                <span className="font-serif text-xl font-normal tracking-tight text-fg">
+                  SwiftPoll
+                </span>
+              </Link>
+              <p className="text-sm text-ash leading-relaxed max-w-sm">
+                Instant real-time polls with zero friction. Built for modern creators, developers, and teams who value beautiful, distraction-free opinion gathering.
+              </p>
+            </div>
+
+            {/* Links Columns */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 md:col-span-7">
+              <div className="space-y-4">
+                <h5 className="text-xs font-semibold uppercase tracking-wider text-muted-fg">Product</h5>
+                <ul className="space-y-2.5 text-sm">
+                  <li>
+                    <Link href="/" className="text-ash hover:text-brand-500 transition-colors">
+                      Poll Builder
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/features" className="text-ash hover:text-brand-500 transition-colors">
+                      Capabilities
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/templates" className="text-ash hover:text-brand-500 transition-colors">
+                      Templates
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/pricing" className="text-ash hover:text-brand-500 transition-colors">
+                      Pricing Plans
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h5 className="text-xs font-semibold uppercase tracking-wider text-muted-fg">Developer</h5>
+                <ul className="space-y-2.5 text-sm">
+                  <li>
+                    <a href="https://github.com/nodeanurag" target="_blank" rel="noopener noreferrer" className="text-ash hover:text-brand-500 transition-colors">
+                      GitHub
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.linkedin.com/in/nodeanurag/" target="_blank" rel="noopener noreferrer" className="text-ash hover:text-brand-500 transition-colors">
+                      LinkedIn
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://x.com/anuragdotdev" target="_blank" rel="noopener noreferrer" className="text-ash hover:text-brand-500 transition-colors">
+                      X (Twitter)
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="space-y-4 col-span-2 sm:col-span-1">
+                <h5 className="text-xs font-semibold uppercase tracking-wider text-muted-fg">Legal & Trust</h5>
+                <ul className="space-y-2.5 text-sm">
+                  <li>
+                    <Link href="/terms" className="text-ash hover:text-brand-500 transition-colors">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy" className="text-ash hover:text-brand-500 transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/cookies" className="text-ash hover:text-brand-500 transition-colors">
+                      Cookie Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/security" className="text-ash hover:text-brand-500 transition-colors">
+                      Security Info
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Copyright Row */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-fg">
+            <p>© {new Date().getFullYear()} SwiftPoll. All rights reserved.</p>
+            <div className="flex items-center gap-1.5">
+              <span>Powered by</span>
+              <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="hover:text-fg font-semibold transition-colors">Next.js</a>
+              <span>&</span>
+              <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="hover:text-fg font-semibold transition-colors">Supabase</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

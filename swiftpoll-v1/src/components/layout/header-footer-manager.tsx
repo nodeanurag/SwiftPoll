@@ -31,6 +31,11 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Search dialog states
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [polls, setPolls] = useState<{ id: string; question: string; slug: string; created_at: string; }[]>([]);
+
   // Sync auth state
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -49,6 +54,18 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
       subscription.unsubscribe();
     };
   }, [supabase]);
+
+  // Keydown listener for ⌘K / Ctrl+K
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Click outside listener for dropdowns
   useEffect(() => {

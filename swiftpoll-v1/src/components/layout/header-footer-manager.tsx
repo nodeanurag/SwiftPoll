@@ -36,6 +36,28 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
   const [searchQuery, setSearchQuery] = useState("");
   const [polls, setPolls] = useState<{ id: string; question: string; slug: string; created_at: string; }[]>([]);
 
+  // Notification states
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [unreadNotifications, setUnreadNotifications] = useState(2);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+
+  const mockNotifications = [
+    {
+      id: "1",
+      icon: "📊",
+      title: "New vote received!",
+      text: "Your poll 'Favorite Programming Language' just received a new vote.",
+      time: "Just now"
+    },
+    {
+      id: "2",
+      icon: "👥",
+      title: "Workspace Member Joined",
+      text: "A new collaborator has joined your team workspace.",
+      time: "2 hours ago"
+    }
+  ];
+
   // Sync auth state
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -91,6 +113,9 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setNotificationsOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);

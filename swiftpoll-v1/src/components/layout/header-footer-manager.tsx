@@ -141,6 +141,41 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     pathname.startsWith("/billing") ||
     (pathname === "/templates" && user !== null);
 
+  if (isAppRoute) {
+    return (
+      <div className="flex min-h-screen flex-col bg-bg text-fg select-none">
+        {/* App Header */}
+        <header className="sticky top-0 z-50 w-full border-b border-border bg-bg/95 backdrop-blur-md">
+          <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-6 sm:px-8">
+            
+            {/* Left Brand */}
+            <Link href="/dashboard" className="flex items-center gap-2.5 transition-transform active:scale-95">
+              <Image
+                src="/logo.svg"
+                alt="SwiftPoll Logo"
+                width={36}
+                height={36}
+                className="rounded-lg object-contain"
+              />
+              <span className="font-serif text-lg font-normal tracking-tight text-white">
+                SwiftPoll
+              </span>
+            </Link>
+
+            <div className="flex items-center gap-3.5">
+              {/* Controls will go here */}
+            </div>
+          </div>
+        </header>
+
+        {/* Dashboard main layout wrapper */}
+        <div className="flex-1 flex flex-col">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {children}

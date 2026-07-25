@@ -55,6 +55,25 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     };
   }, [supabase]);
 
+  // Fetch user polls for search
+  useEffect(() => {
+    if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPolls([]);
+      return;
+    }
+    async function fetchUserPolls() {
+      if (!user) return;
+      const { data } = await supabase
+        .from("polls")
+        .select("id, question, slug, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+      if (data) setPolls(data);
+    }
+    void fetchUserPolls();
+  }, [user, supabase]);
+
   // Keydown listener for ⌘K / Ctrl+K
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {

@@ -23,6 +23,31 @@ import { NavLinks } from "@/components/layout/nav-links";
 import { ThemeToggle } from "../theme-toggle";
 
 export function HeaderFooterManager({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const supabase = getBrowserClient();
+
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Sync auth state
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
   return (
     <>
       {children}

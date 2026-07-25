@@ -130,6 +130,17 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     window.location.replace("/");
   };
 
+  const isAppRoute = 
+    pathname.startsWith("/dashboard") || 
+    pathname.startsWith("/polls") || 
+    pathname.startsWith("/analytics") || 
+    pathname.startsWith("/workspaces") || 
+    pathname.startsWith("/developer") || 
+    pathname.startsWith("/profile") || 
+    pathname.startsWith("/settings") || 
+    pathname.startsWith("/billing") ||
+    (pathname === "/templates" && user !== null);
+
   return (
     <>
       {children}

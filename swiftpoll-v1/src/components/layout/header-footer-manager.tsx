@@ -28,6 +28,8 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Sync auth state
   useEffect(() => {
@@ -47,6 +49,19 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
       subscription.unsubscribe();
     };
   }, [supabase]);
+
+  // Click outside listener for dropdowns
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>

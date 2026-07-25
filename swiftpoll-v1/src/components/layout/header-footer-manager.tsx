@@ -343,6 +343,73 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
         <div className="flex-1 flex flex-col">
           {children}
         </div>
+
+        {/* Search Command Dialog Overlay */}
+        {searchOpen && (
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center pt-24 px-4"
+            onClick={() => setSearchOpen(false)}
+          >
+            <div 
+              className="w-full max-w-lg bg-card border border-border rounded-2xl p-4 shadow-2xl space-y-4 animate-scale-up text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative flex items-center">
+                <Search className="absolute left-3.5 h-4 w-4 text-muted-fg" />
+                <input 
+                  placeholder="Search your polls by question..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-11 pl-10 pr-10 bg-subtle/50 border border-border rounded-xl text-xs text-fg focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3.5 text-xs text-muted-fg hover:text-fg font-bold bg-transparent border-0 cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-2 max-h-80 overflow-y-auto">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-muted-fg/80 px-1">
+                  Polls ({polls.filter((p) => p.question.toLowerCase().includes(searchQuery.toLowerCase())).length})
+                </p>
+                {polls.filter((p) => p.question.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                  <p className="text-xs text-muted-fg text-center py-6">No matching polls found.</p>
+                ) : (
+                  polls
+                    .filter((p) => p.question.toLowerCase().includes(searchQuery.toLowerCase()))
+                    .map((poll) => (
+                      <Link 
+                        href={`/dashboard/analytics/${poll.slug}`} 
+                        key={poll.id} 
+                        onClick={() => {
+                          setSearchOpen(false);
+                          setSearchQuery("");
+                        }}
+                        className="flex justify-between items-center p-3.5 rounded-xl bg-subtle/10 hover:bg-subtle border border-transparent hover:border-border transition-all group"
+                      >
+                        <span className="text-xs font-serif font-normal text-fg truncate max-w-[260px] group-hover:text-brand-500 transition-colors">
+                          {poll.question}
+                        </span>
+                        <span className="text-[9px] bg-subtle border border-border px-2 py-0.5 rounded-md text-muted-fg font-semibold flex items-center gap-1 group-hover:text-fg group-hover:bg-brand-500/10">
+                          View Analytics →
+                        </span>
+                      </Link>
+                    ))
+                )}
+              </div>
+
+              <div className="flex justify-between items-center text-[10px] text-muted-fg border-t border-border/50 pt-3 px-1">
+                <span>Use ↑↓ arrows to navigate, Esc to close</span>
+                <kbd className="bg-subtle border border-border px-1.5 py-0.5 rounded font-mono text-[8px]">ESC</kbd>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

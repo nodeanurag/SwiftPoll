@@ -198,8 +198,77 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
               </a>
             </nav>
 
+            {/* Right Side Controls */}
             <div className="flex items-center gap-3.5">
-              {/* Controls will go here */}
+              
+              {/* Interactive Search trigger */}
+              <button
+                onClick={() => setSearchOpen(true)}
+                type="button"
+                className="relative hidden lg:flex items-center w-40 cursor-pointer text-left focus:outline-none"
+              >
+                <Search className="absolute left-2.5 h-3 w-3 text-muted-fg" />
+                <div className="h-8 pl-7.5 pr-8 w-full bg-subtle/30 border border-border text-[11px] rounded-xl flex items-center text-muted-fg hover:bg-subtle/50 transition-colors">
+                  Search...
+                </div>
+                <span className="absolute right-2.5 text-[8px] bg-subtle border border-border px-1 rounded font-mono text-muted-fg leading-none py-0.5">
+                  ⌘K
+                </span>
+              </button>
+
+              {/* Notification icon & popover */}
+              <div className="relative" ref={notificationsRef}>
+                <button 
+                  onClick={() => setNotificationsOpen(!notificationsOpen)}
+                  type="button"
+                  className="p-2 text-muted-fg hover:text-fg hover:bg-subtle rounded-xl transition-all relative cursor-pointer"
+                >
+                  <Bell className="h-4 w-4" />
+                  {unreadNotifications > 0 && (
+                    <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 bg-brand-500 rounded-full" />
+                  )}
+                </button>
+
+                {/* Notifications Panel */}
+                {notificationsOpen && (
+                  <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-border bg-card p-3 shadow-2xl animate-scale-up text-left z-50">
+                    <div className="flex justify-between items-center pb-2 mb-2 border-b border-border/50">
+                      <h4 className="text-xs font-bold text-fg">Notifications</h4>
+                      {unreadNotifications > 0 && (
+                        <button 
+                          onClick={() => setUnreadNotifications(0)}
+                          className="text-[10px] text-brand-500 hover:underline cursor-pointer border-0 bg-transparent p-0"
+                        >
+                          Mark all as read
+                        </button>
+                      )}
+                    </div>
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {mockNotifications.map((n) => (
+                        <div key={n.id} className="p-2.5 rounded-xl bg-subtle/20 border border-border/50 space-y-1">
+                          <div className="flex items-center gap-1.5 text-[11px] font-bold text-fg">
+                            <span>{n.icon}</span>
+                            <span>{n.title}</span>
+                            <span className="ml-auto text-[8px] text-muted-fg font-normal">{n.time}</span>
+                          </div>
+                          <p className="text-[10px] text-muted-fg leading-normal">{n.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Theme Toggle */}
+              <ThemeToggle />
+
+              {/* + Create Poll CTA */}
+              <Link href="/polls/create">
+                <Button size="sm" className="bg-brand-500 hover:bg-brand-600 text-bg text-xs font-bold h-8 px-3.5 flex gap-1.5 items-center cursor-pointer border-0 rounded-xl shadow-sm">
+                  <Plus className="h-3.5 w-3.5" />
+                  Create Poll
+                </Button>
+              </Link>
             </div>
           </div>
         </header>

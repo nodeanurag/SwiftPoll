@@ -124,6 +124,12 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
     };
   }, []);
 
+  const handleLogout = async () => {
+    setDropdownOpen(false);
+    await supabase.auth.signOut();
+    window.location.replace("/");
+  };
+
   return (
     <>
       {children}

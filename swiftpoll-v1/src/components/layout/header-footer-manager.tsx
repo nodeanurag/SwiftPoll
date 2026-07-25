@@ -269,6 +269,72 @@ export function HeaderFooterManager({ children }: { children: React.ReactNode })
                   Create Poll
                 </Button>
               </Link>
+
+              {/* User dropdown trigger */}
+              {loading ? (
+                <div className="h-8 w-8 rounded-full bg-subtle animate-pulse" />
+              ) : (
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center gap-1.5 p-0.5 rounded-full hover:bg-subtle/50 transition-all cursor-pointer"
+                  >
+                    <span className="h-8 w-8 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-500 font-bold text-xs flex items-center justify-center">
+                      {user?.email?.[0].toUpperCase() || "N"}
+                    </span>
+                    <ChevronDown className="h-3 w-3 text-muted-fg" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-border bg-card p-2 shadow-2xl animate-scale-up text-left z-50">
+                      <div className="px-3 py-2 border-b border-border/50 mb-1">
+                        <p className="text-xs font-semibold text-fg truncate">
+                          {user?.user_metadata?.display_name || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User"}
+                        </p>
+                        <p className="text-[10px] text-muted-fg truncate mt-0.5">
+                          {user?.email || "guest@swiftpoll.co"}
+                        </p>
+                      </div>
+                      
+                      <Link 
+                        href="/profile" 
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex w-full items-center gap-2 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-fg hover:bg-subtle transition-all"
+                      >
+                        <UserIcon className="h-3.5 w-3.5" />
+                        Profile Settings
+                      </Link>
+
+                      <Link 
+                        href="/settings" 
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex w-full items-center gap-2 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-fg hover:bg-subtle transition-all"
+                      >
+                        <SettingsIcon className="h-3.5 w-3.5" />
+                        Preferences
+                      </Link>
+
+                      <Link 
+                        href="/billing" 
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex w-full items-center gap-2 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-fg hover:bg-subtle transition-all"
+                      >
+                        <CreditCard className="h-3.5 w-3.5" />
+                        Billing Details
+                      </Link>
+
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-500 hover:bg-red-500/10 transition-all border-t border-border/50 mt-1 pt-2.5 cursor-pointer text-left"
+                      >
+                        <LogOut className="h-3.5 w-3.5" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </header>

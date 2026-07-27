@@ -12,5 +12,14 @@ export function AuthRedirectHandler() {
   const router = useRouter();
   const supabase = getBrowserClient();
 
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        router.replace("/dashboard");
+      }
+    });
+  }, [supabase, router]);
+
   return null;
 }

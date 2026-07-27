@@ -30,5 +30,14 @@ export function AuthButton() {
     };
   }, [supabase]);
 
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+    } catch (err) {
+      console.error("Google login failed:", err);
+      setLoading(false);
+    }
+  };
+
   return null;
 }

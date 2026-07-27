@@ -56,6 +56,7 @@ export function AuthButton() {
       await supabase.auth.signOut();
       window.location.replace("/");
     } catch (err) {
+      // Log errors if Supabase sign out fails
       console.error("Logout failed:", err);
       setLoading(false);
     }

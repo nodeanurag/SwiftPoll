@@ -50,5 +50,14 @@ export function AuthButton() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+    } catch (err) {
+      console.error("Logout failed:", err);
+      setLoading(false);
+    }
+  };
+
   return null;
 }

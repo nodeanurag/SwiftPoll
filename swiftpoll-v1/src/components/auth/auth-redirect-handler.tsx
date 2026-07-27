@@ -9,5 +9,8 @@ import { getBrowserClient } from "@/lib/supabase/client";
  * to their dashboard. Does nothing for anonymous users.
  */
 export function AuthRedirectHandler() {
+  const router = useRouter();
+  const supabase = getBrowserClient();
+
   return null;
 }

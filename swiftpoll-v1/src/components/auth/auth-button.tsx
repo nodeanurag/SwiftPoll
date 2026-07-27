@@ -53,6 +53,8 @@ export function AuthButton() {
   const handleLogout = async () => {
     try {
       setLoading(true);
+      await supabase.auth.signOut();
+      window.location.replace("/");
     } catch (err) {
       console.error("Logout failed:", err);
       setLoading(false);

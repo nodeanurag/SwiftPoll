@@ -33,6 +33,9 @@ export function AuthButton() {
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
+      const redirectTo = typeof window !== "undefined"
+        ? `${window.location.origin}/auth/callback`
+        : undefined;
     } catch (err) {
       console.error("Google login failed:", err);
       setLoading(false);

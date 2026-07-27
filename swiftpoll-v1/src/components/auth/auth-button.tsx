@@ -24,6 +24,10 @@ export function AuthButton() {
         setLoading(false);
       }
     );
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [supabase]);
 
   return null;

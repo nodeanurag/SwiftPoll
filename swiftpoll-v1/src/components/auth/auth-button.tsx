@@ -71,7 +71,10 @@ export function AuthButton() {
   if (user) {
     return (
       <div className="flex items-center gap-3">
-        {/* User badge and button will go here */}
+        <div className="hidden sm:flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-1.5 text-xs font-medium text-[var(--color-ash)]">
+          <UserIcon className="h-3.5 w-3.5" />
+          <span className="max-w-[120px] truncate">{user.email}</span>
+        </div>
       </div>
     );
   }

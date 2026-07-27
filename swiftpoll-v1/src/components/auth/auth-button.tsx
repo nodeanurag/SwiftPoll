@@ -10,5 +10,13 @@ export function AuthButton() {
   const [loading, setLoading] = useState(true);
   const supabase = getBrowserClient();
 
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+  }, [supabase]);
+
   return null;
 }

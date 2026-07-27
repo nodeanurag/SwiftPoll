@@ -26,6 +26,10 @@ export function AuthRedirectHandler() {
         router.replace("/dashboard");
       }
     });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [supabase, router]);
 
   return null;

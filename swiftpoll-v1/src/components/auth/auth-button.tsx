@@ -36,6 +36,13 @@ export function AuthButton() {
       const redirectTo = typeof window !== "undefined"
         ? `${window.location.origin}/auth/callback`
         : undefined;
+
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+        },
+      });
     } catch (err) {
       console.error("Google login failed:", err);
       setLoading(false);

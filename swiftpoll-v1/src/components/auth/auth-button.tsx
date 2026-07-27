@@ -44,6 +44,7 @@ export function AuthButton() {
         },
       });
     } catch (err) {
+      // Log errors if Google OAuth initialization fails
       console.error("Google login failed:", err);
       setLoading(false);
     }

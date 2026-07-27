@@ -75,6 +75,13 @@ export function AuthButton() {
           <UserIcon className="h-3.5 w-3.5" />
           <span className="max-w-[120px] truncate">{user.email}</span>
         </div>
+        <button
+          className="inline-flex h-11 items-center justify-center rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-bg)] px-4 text-sm font-medium text-[var(--color-ash)] transition-all hover:bg-[var(--color-subtle)] hover:text-[var(--color-fg)] active:scale-95"
+          aria-label="Sign out"
+        >
+          <LogOut className="mr-1.5 h-4 w-4" />
+          Sign Out
+        </button>
       </div>
     );
   }

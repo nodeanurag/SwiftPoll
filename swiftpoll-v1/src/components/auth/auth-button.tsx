@@ -62,5 +62,11 @@ export function AuthButton() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="h-10 w-28 animate-pulse rounded-[var(--radius)] bg-[var(--color-mist)]" />
+    );
+  }
+
   return null;
 }

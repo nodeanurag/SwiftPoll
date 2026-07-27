@@ -87,5 +87,11 @@ export function AuthButton() {
     );
   }
 
-  return null;
+  return (
+    <button
+      className="inline-flex h-11 items-center justify-center gap-2.5 rounded-[var(--radius)] border border-[var(--color-border)] bg-[var(--color-card)] px-5 text-sm font-medium text-[var(--color-fg)] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--color-brand-500)] hover:bg-[var(--color-subtle)] hover:shadow-md active:translate-y-0 active:scale-[0.98] cursor-pointer"
+    >
+      {/* Icon and text will go here */}
+    </button>
+  );
 }

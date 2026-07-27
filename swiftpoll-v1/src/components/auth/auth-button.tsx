@@ -68,5 +68,13 @@ export function AuthButton() {
     );
   }
 
+  if (user) {
+    return (
+      <div className="flex items-center gap-3">
+        {/* User badge and button will go here */}
+      </div>
+    );
+  }
+
   return null;
 }

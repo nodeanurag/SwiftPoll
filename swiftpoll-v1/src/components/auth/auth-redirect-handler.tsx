@@ -19,6 +19,13 @@ export function AuthRedirectHandler() {
         router.replace("/dashboard");
       }
     });
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        router.replace("/dashboard");
+      }
+    });
   }, [supabase, router]);
 
   return null;

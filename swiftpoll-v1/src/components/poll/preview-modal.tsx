@@ -76,6 +76,8 @@ export function PreviewModal({
 
   if (!isOpen) return null;
 
+  const cleanedQuestion = question.trim() || "Untitled Question";
+
   function handleToggle(id: string) {
     if (type === "single" || type === "rating" || type === "scale") {
       setSelected([id]);
@@ -106,5 +108,102 @@ export function PreviewModal({
     setViewResults(false);
   }
 
-  return null;
+  const showResults = voted || viewResults;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div 
+        className="relative w-full max-w-lg rounded-2xl bg-[var(--color-pure-white)] border border-[var(--color-border)] p-6 sm:p-8 shadow-2xl animate-scale-in flex flex-col max-h-[90vh]"
+        role="dialog"
+        aria-modal="true"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between border-b pb-4 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md dark:bg-amber-950/20 dark:text-amber-400">
+              Interactive Preview
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="text-[var(--color-muted-fg)] hover:text-[var(--color-fg)] p-1 rounded-lg transition-colors cursor-pointer"
+            aria-label="Close Preview"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto space-y-6 pr-1">
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold tracking-tight text-balance sm:text-2xl font-serif">
+              {cleanedQuestion}
+            </h2>
+
+            {requireAuth && (
+              <p className="text-[10px] text-[var(--color-muted-fg)] bg-[var(--color-subtle)] border border-[var(--color-border)] px-2.5 py-1.5 rounded-lg flex items-center gap-1.5">
+                🔒 Google sign-in required for this poll.
+              </p>
+            )}
+
+            <div className="space-y-4 mt-2">
+              {showResults ? (
+                <div className="space-y-4">
+                  <ResultsView
+                    options={optionResults}
+                    counts={mockCounts}
+                    totalVotes={mockTotal}
+                    myVotes={selected}
+                    type={type}
+                  />
+                  <p className="text-center text-xs text-[var(--color-muted-fg)] italic">
+                    Mock results computed from preview inputs.
+                  </p>
+                </div>
+              ) : (
+                <VoteOptions
+                  options={optionResults}
+                  type={type}
+                  selected={selected}
+                  submitting={false}
+                  onToggle={handleToggle}
+                  onSubmit={handleSubmit}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t pt-4 mt-4 flex items-center justify-between gap-3">
+          {showResults ? (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleReset}
+              className="text-xs h-9 cursor-pointer"
+            >
+              Reset Ballot
+            </Button>
+          ) : (
+            !showResults && type !== "rating" && type !== "scale" && (
+              <button
+                type="button"
+                onClick={() => setViewResults(true)}
+                className="text-xs text-[var(--color-muted-fg)] hover:text-[var(--color-fg)] underline underline-offset-4 cursor-pointer"
+              >
+                View results
+              </button>
+            )
+          )}
+          <Button
+            onClick={onClose}
+            className="ml-auto text-xs h-9 bg-[var(--color-fg)] text-[var(--color-bg)] cursor-pointer"
+          >
+            Close Preview
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }

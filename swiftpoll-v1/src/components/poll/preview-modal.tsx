@@ -21,6 +21,60 @@ export function PreviewModal({
   type,
   requireAuth,
 }: PreviewModalProps) {
+  const [selected, setSelected] = useState<string[]>([]);
+  const [voted, setVoted] = useState(false);
+  const [viewResults, setViewResults] = useState(false);
+
+  // Generate clean options list
+  const optionResults = useMemo(() => {
+    let finalOptions: string[] = options.map((o) => o.trim()).filter(Boolean);
+    if (type === "rating") {
+      finalOptions = ["1", "2", "3", "4", "5"];
+    } else if (type === "scale") {
+      finalOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    }
+
+    if (finalOptions.length === 0 && type !== "rating" && type !== "scale") {
+      finalOptions = ["Option 1", "Option 2"];
+    }
+
+    return finalOptions.map((text, idx) => ({
+      id: `preview-opt-${idx}`,
+      poll_id: "preview",
+      text,
+      position: idx,
+      created_at: new Date().toISOString(),
+      votes: 0,
+      percentage: 0
+    })) as OptionResult[];
+  }, [options, type]);
+
+  // Generate static random base counts to simulate prior votes
+  const baseCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    optionResults.forEach((opt) => {
+      // eslint-disable-next-line react-hooks/purity
+      counts[opt.id] = Math.floor(Math.random() * 8) + 1;
+    });
+    return counts;
+  }, [optionResults]);
+
+  // Derive dynamic counts based on user's active choices
+  const mockCounts = useMemo(() => {
+    const counts = { ...baseCounts };
+    if (voted) {
+      selected.forEach((id) => {
+        counts[id] = (counts[id] ?? 0) + 1;
+      });
+    }
+    return counts;
+  }, [baseCounts, selected, voted]);
+
+  const mockTotal = useMemo(() => {
+    return Object.values(mockCounts).reduce((a, b) => a + b, 0);
+  }, [mockCounts]);
+
   if (!isOpen) return null;
+
   return null;
 }

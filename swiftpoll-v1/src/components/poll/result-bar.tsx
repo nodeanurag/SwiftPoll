@@ -40,7 +40,32 @@ export function ResultBar({
           aria-hidden
         />
         <div className="relative flex items-center justify-between gap-3">
-          {/* Label elements will be added in the next commit */}
+          <span className="flex items-center gap-2 font-medium">
+            {imageUrl && (
+              <img 
+                src={imageUrl} 
+                alt={text} 
+                className="h-10 w-10 shrink-0 object-cover rounded-md border border-[var(--color-border)]"
+              />
+            )}
+            <span className="truncate">{text}</span>
+            {isWinner && (
+              <span className="shrink-0 text-xs" title="Leading Choice">
+                👑
+              </span>
+            )}
+            {isMyVote && (
+              <span className="shrink-0 rounded-full bg-brand-500/15 px-2 py-0.5 text-xs font-semibold text-brand-600 dark:text-brand-400">
+                Your vote
+              </span>
+            )}
+          </span>
+          <span className="shrink-0 tabular-nums text-sm text-[var(--color-muted-fg)]">
+            <span className="font-semibold text-[var(--color-fg)]">
+              {percentage}%
+            </span>{" "}
+            · {votes}
+          </span>
         </div>
       </div>
     </div>

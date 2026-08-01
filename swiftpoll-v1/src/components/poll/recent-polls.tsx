@@ -20,5 +20,27 @@ interface RecentPollItem {
 }
 
 export function RecentPolls() {
+  const [user, setUser] = useState<User | null>(null);
+  const [polls, setPolls] = useState<RecentPollItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = getBrowserClient();
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
   return null;
 }

@@ -238,6 +238,7 @@ export default function AnalyticsPage() {
     const responseSpeedLabel = avgDurationMs > 0 ? `${(avgDurationMs / 1000).toFixed(1)}s` : "N/A";
 
     // Timeline Data
+    // eslint-disable-next-line react-hooks/purity
     const now = Date.now();
     const pollCreatedTime = new Date(data.poll.created_at).getTime();
     const ageHrs = (now - pollCreatedTime) / (3600 * 1000);

@@ -46,5 +46,34 @@ export function ResultsView({
     );
   }
 
-  return null;
+  const ranked = [...options].sort((a, b) => {
+    if (type === "rating" || type === "scale" || type === "reactions") {
+      return a.position - b.position;
+    }
+    const av = counts[a.id] ?? 0;
+    const bv = counts[b.id] ?? 0;
+    if (bv !== av) return bv - av;
+    return a.position - b.position;
+  });
+  const topVotes = ranked.length ? counts[ranked[0].id] ?? 0 : 0;
+
+  return (
+    <div className="space-y-2.5" aria-live="polite">
+      {ranked.map((opt) => {
+        const votes = counts[opt.id] ?? 0;
+        const textLabel = type === "rating" ? `${opt.text} Star${opt.text !== "1" ? "s" : ""}` : opt.text;
+        return (
+          <ResultBar
+            key={opt.id}
+            text={textLabel}
+            votes={votes}
+            percentage={computePercentage(votes, totalVotes)}
+            isWinner={totalVotes > 0 && votes === topVotes}
+            isMyVote={myVotes.includes(opt.id)}
+            imageUrl={opt.image_url}
+          />
+        );
+      })}
+    </div>
+  );
 }

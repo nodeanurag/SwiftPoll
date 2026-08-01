@@ -108,5 +108,68 @@ export function RecentPolls() {
     };
   }, [user, supabase]);
 
-  return null;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <Loader className="h-5 w-5 text-[var(--color-brand-500)]" />
+      </div>
+    );
+  }
+
+  if (polls.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-4 pt-6 border-t border-[var(--color-border)] mt-8">
+      <div className="flex items-center justify-between">
+        <h3 className="font-serif text-xl font-normal">Your Recent Polls</h3>
+        {user && (
+          <Link 
+            href="/dashboard" 
+            className="text-xs font-semibold text-[var(--color-brand-500)] hover:underline flex items-center gap-1"
+          >
+            View Dashboard
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 gap-3">
+        {polls.map((poll) => {
+          const isLive = !!poll.isLive;
+          const voteCount = poll.votes?.[0]?.count ?? 0;
+
+          return (
+            <Link 
+              key={poll.id} 
+              href={`/p/${poll.slug}`}
+              className="group flex items-center justify-between p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] transition-all hover:border-[var(--color-brand-500)] hover:shadow-sm"
+            >
+              <div className="space-y-1.5 flex-1 min-w-0 pr-4">
+                <div className="flex items-center gap-2.5">
+                  <LiveBadge live={isLive} />
+                  <span className="text-[10px] text-[var(--color-muted-fg)] uppercase tracking-wider font-semibold flex items-center gap-1">
+                    <Calendar className="h-3 w-3" />
+                    {new Date(poll.created_at).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric"
+                    })}
+                  </span>
+                  <span className="text-[10px] text-[var(--color-muted-fg)] uppercase tracking-wider font-semibold flex items-center gap-1">
+                    <Vote className="h-3 w-3" />
+                    {voteCount} {voteCount === 1 ? "vote" : "votes"}
+                  </span>
+                </div>
+                <h4 className="font-serif text-base font-normal truncate group-hover:text-[var(--color-brand-500)] transition-colors">
+                  {poll.question}
+                </h4>
+              </div>
+              <ExternalLink className="h-4 w-4 text-[var(--color-muted-fg)] group-hover:text-[var(--color-fg)] transition-colors shrink-0" />
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
 }

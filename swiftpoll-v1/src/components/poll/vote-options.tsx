@@ -122,5 +122,96 @@ export function VoteOptions({
     );
   }
 
+  // 1. Star Rating Renderer
+  if (type === "rating") {
+    return (
+      <div className="space-y-4 py-2">
+        <p className="text-center text-xs text-[var(--color-muted-fg)]">
+          Select a star rating below to submit your vote:
+        </p>
+        <div className="flex justify-center items-center gap-1.5 sm:gap-2">
+          {sortedOptions.map((opt, index) => {
+            const starValue = index + 1;
+            const isHighlighted = hoveredStar !== null ? starValue <= hoveredStar : false;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={submitting}
+                onMouseEnter={() => setHoveredStar(starValue)}
+                onMouseLeave={() => setHoveredStar(null)}
+                onClick={() => onToggle(opt.id)}
+                className="p-1 cursor-pointer transition-all duration-300 hover:scale-125 focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+                style={{
+                  filter: isHighlighted ? "drop-shadow(0 0 8px rgba(245, 158, 11, 0.5))" : "none"
+                }}
+                aria-label={`Rate ${starValue} Stars`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill={isHighlighted ? "currentColor" : "none"}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className={cn(
+                    "h-10 w-10 sm:h-12 sm:w-12 transition-colors duration-150",
+                    isHighlighted 
+                      ? "text-amber-500 fill-amber-500" 
+                      : "text-[var(--color-border)] hover:text-amber-500"
+                  )}
+                >
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Numerical 1-10 Scale Renderer
+  if (type === "scale") {
+    return (
+      <div className="space-y-4 py-2">
+        <p className="text-center text-xs text-[var(--color-muted-fg)]">
+          Pick a score from 1 to 10 to vote:
+        </p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-2">
+            {sortedOptions.map((opt, index) => {
+              const scoreValue = index + 1;
+              const isSelected = selected.includes(opt.id);
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  disabled={submitting}
+                  onClick={() => onToggle(opt.id)}
+                  className={cn(
+                    "h-10 w-10 sm:h-12 sm:w-12 rounded-full border flex items-center justify-center font-medium text-xs sm:text-sm transition-all duration-200 cursor-pointer shadow-sm",
+                    "hover:scale-110 active:scale-95 hover:border-[var(--color-fg)] hover:bg-[var(--color-subtle)] hover:shadow-md",
+                    isSelected
+                      ? "border-[var(--color-fg)] bg-[var(--color-fg)] text-[var(--color-bg)] font-bold scale-110"
+                      : "border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-muted-fg)] hover:text-[var(--color-fg)]",
+                    "disabled:opacity-50 disabled:pointer-events-none"
+                  )}
+                >
+                  {scoreValue}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex justify-between w-full max-w-[440px] text-[10px] sm:text-xs text-[var(--color-muted-fg)] px-2 font-medium">
+            <span>Low (1)</span>
+            <span>High (10)</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return null;
 }

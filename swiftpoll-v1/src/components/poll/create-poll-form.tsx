@@ -40,6 +40,34 @@ function getLocalCreatedPollCount(): number {
   }
 }
 
+function recordLocalCreatedPoll(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem("swiftpoll_created_polls");
+    const parsed = raw ? JSON.parse(raw) : [];
+    const valid = Array.isArray(parsed) ? parsed : [];
+    valid.push(Date.now());
+    localStorage.setItem("swiftpoll_created_polls", JSON.stringify(valid));
+  } catch {
+    // ignore
+  }
+}
+
+function recordLocalCreatedPollSlug(slug: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem("swiftpoll_created_polls_slugs");
+    const parsed = raw ? JSON.parse(raw) : [];
+    const valid = Array.isArray(parsed) ? parsed : [];
+    if (!valid.includes(slug)) {
+      valid.push(slug);
+    }
+    localStorage.setItem("swiftpoll_created_polls_slugs", JSON.stringify(valid));
+  } catch {
+    // ignore
+  }
+}
+
 export function CreatePollForm({ 
   workspaceId, 
   onOpenDevSettings 
@@ -74,6 +102,72 @@ export function CreatePollForm({
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [aiLoading, setAiLoading] = useState(false);
+
+  useEffect(() => {
+    const q = searchParams.get("question");
+    const opts = searchParams.get("options");
+    const reqAuth = searchParams.get("requireAuth");
+    const webUrl = searchParams.get("webhookUrl");
+
+    if (q || opts || reqAuth || webUrl) {
+      /* eslint-disable react-hooks/set-state-in-effect */
+      if (q) setQuestion(q);
+      if (reqAuth === "true") setRequireAuth(true);
+      if (webUrl) setWebhookUrl(webUrl);
+      if (opts) {
+        const parsed = opts.split(",").map(o => o.trim()).filter(Boolean);
+        setOptions([...parsed, ""]);
+      }
+      /* eslint-enable react-hooks/set-state-in-effect */
+      return;
+    }
+
+    // Load draft from localStorage on mount/when searchParams is not overriding
+    try {
+      const saved = localStorage.getItem("swiftpoll_draft_poll");
+      if (saved) {
+        const draft = JSON.parse(saved);
+        if (draft.question) setQuestion(draft.question);
+        if (draft.options) setOptions(draft.options);
+        if (draft.type) setType(draft.type);
+        if (draft.hideResults !== undefined) setHideResults(draft.hideResults);
+        if (draft.requireAuth !== undefined) setRequireAuth(draft.requireAuth);
+        if (draft.closesAt) setClosesAt(draft.closesAt);
+        if (draft.webhookUrl) setWebhookUrl(draft.webhookUrl);
+        if (draft.selectedEmojis) setSelectedEmojis(draft.selectedEmojis);
+        if (draft.optionImages) setOptionImages(draft.optionImages);
+        if (draft.hideResultsUntilClose !== undefined) setHideResultsUntilClose(draft.hideResultsUntilClose);
+        if (draft.voteLimit) setVoteLimit(draft.voteLimit);
+        if (draft.password) setPassword(draft.password);
+      }
+    } catch (e) {
+      console.error("Failed to load draft:", e);
+    }
+  }, [searchParams]);
+
+  // Auto-save draft on form state changes
+  useEffect(() => {
+    const hasContent = question.trim() || options.some(o => o.trim()) || type === "reactions";
+    if (hasContent) {
+      const draft = {
+        question,
+        options,
+        selectedEmojis,
+        optionImages,
+        type,
+        hideResults,
+        requireAuth,
+        closesAt,
+        webhookUrl,
+        hideResultsUntilClose,
+        voteLimit,
+        password
+      };
+      localStorage.setItem("swiftpoll_draft_poll", JSON.stringify(draft));
+    } else {
+      localStorage.removeItem("swiftpoll_draft_poll");
+    }
+  }, [question, options, selectedEmojis, optionImages, type, hideResults, requireAuth, closesAt, webhookUrl, hideResultsUntilClose, voteLimit, password]);
 
   return null;
 }

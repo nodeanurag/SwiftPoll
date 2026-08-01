@@ -99,9 +99,79 @@ export function CreatePollForm({
   const [voteLimit, setVoteLimit] = useState("");
   const [password, setPassword] = useState("");
 
+  function updateOptionImage(index: number, value: string) {
+    setOptionImages((prev) => prev.map((img, i) => (i === index ? value : img)));
+  }
+
+  function toggleImageInput(index: number) {
+    setOpenImageInputs((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  }
+
+  function toggleEmojiSelection(emoji: string) {
+    setSelectedEmojis((prev) => {
+      const isSelected = prev.includes(emoji);
+      if (isSelected) {
+        if (prev.length <= MIN_OPTIONS) return prev;
+        return prev.filter((x) => x !== emoji);
+      } else {
+        if (prev.length >= MAX_OPTIONS) return prev;
+        return [...prev, emoji];
+      }
+    });
+  }
+
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
   const [aiLoading, setAiLoading] = useState(false);
+
+  const handleAIAssistant = async () => {
+    if (!question.trim()) return;
+    setAiLoading(true);
+    try {
+      const { generateAiPollAction } = await import("@/lib/actions/ai");
+      const res = await generateAiPollAction(question);
+      if (res.ok && res.question) {
+        setQuestion(res.question);
+        if (res.type) {
+          setType(res.type);
+        }
+        if (res.type === "rating" || res.type === "scale" || res.type === "reactions" || res.type === "text") {
+          setOptions(["", ""]);
+          setOptionImages(["", ""]);
+        } else if (res.options && res.options.length > 0) {
+          setOptions(res.options);
+          setOptionImages(res.options.map(() => ""));
+        }
+      } else {
+        // Fallback to local heuristics
+        const suggestion = generateAISuggestions(question);
+        setQuestion(suggestion.question);
+        if (suggestion.type) {
+          setType(suggestion.type);
+        }
+        if (suggestion.type === "rating" || suggestion.type === "scale") {
+          setOptions(["", ""]);
+          setOptionImages(["", ""]);
+        } else {
+          setOptions(suggestion.options);
+          setOptionImages(suggestion.options.map(() => ""));
+        }
+      }
+    } catch {
+      // Fallback to local heuristics
+      const suggestion = generateAISuggestions(question);
+      setQuestion(suggestion.question);
+      if (suggestion.type) {
+        setType(suggestion.type);
+      }
+      setOptions(suggestion.options);
+      setOptionImages(suggestion.options.map(() => ""));
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   useEffect(() => {
     const q = searchParams.get("question");
@@ -168,6 +238,152 @@ export function CreatePollForm({
       localStorage.removeItem("swiftpoll_draft_poll");
     }
   }, [question, options, selectedEmojis, optionImages, type, hideResults, requireAuth, closesAt, webhookUrl, hideResultsUntilClose, voteLimit, password]);
+
+  // Auth & Rate Limit state
+  const [user, setUser] = useState<User | null>(null);
+  const [sessionToken, setSessionToken] = useState<string | undefined>(undefined);
+  const [anonymousCount, setAnonymousCount] = useState(0);
+  const [dbUserCount, setDbUserCount] = useState(0);
+  const [loadingLimits, setLoadingLimits] = useState(true);
+
+  const supabase = getBrowserClient();
+
+  useEffect(() => {
+    // Update local storage count
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setAnonymousCount(getLocalCreatedPollCount());
+
+    // Subscribe/Get user status
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setSessionToken(session?.access_token);
+      setLoadingLimits(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setSessionToken(session?.access_token);
+        setLoadingLimits(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  // Fetch database count of polls for logged-in user
+  useEffect(() => {
+    if (!user) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDbUserCount(0);
+      return;
+    }
+
+    const currentUserId = user.id;
+    async function fetchUserPollCount() {
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+      const { count, error } = await supabase
+        .from("polls")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", currentUserId)
+        .gte("created_at", oneDayAgo);
+
+      if (!error && count !== null) {
+        setDbUserCount(count);
+      }
+    }
+
+    fetchUserPollCount();
+  }, [user, supabase]);
+
+  function updateOption(index: number, value: string) {
+    setOptions((prev) => prev.map((o, i) => (i === index ? value : o)));
+    // Auto-append a fresh field when typing in the last one.
+    if (value && index === options.length - 1 && options.length < MAX_OPTIONS) {
+      setOptions((prev) => [...prev, ""]);
+      setOptionImages((prev) => [...prev, ""]);
+      // Focus on the next option input after it is rendered
+      setTimeout(() => {
+        optionRefs.current[index + 1]?.focus();
+      }, 0);
+    }
+  }
+
+  function duplicateOption(index: number) {
+    if (options.length >= MAX_OPTIONS) return;
+    const value = options[index];
+    setOptions((prev) => {
+      const updated = [...prev];
+      updated.splice(index + 1, 0, value);
+      return updated;
+    });
+    setOptionImages((prev) => {
+      const updated = [...prev];
+      updated.splice(index + 1, 0, prev[index] || "");
+      return updated;
+    });
+  }
+
+  function removeOptionWithAnimation(index: number) {
+    if (options.length <= MIN_OPTIONS) return;
+    setFadingIndices((prev) => [...prev, index]);
+    setTimeout(() => {
+      setOptions((prev) => prev.filter((_, i) => i !== index));
+      setOptionImages((prev) => prev.filter((_, i) => i !== index));
+      setFadingIndices((prev) => prev.filter((i) => i !== index));
+    }, 200);
+  }
+
+  function handleDragStart(e: React.DragEvent, index: number) {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault();
+  }
+
+  function handleDrop(e: React.DragEvent, targetIndex: number) {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    setOptions((prev) => {
+      const updated = [...prev];
+      const [draggedItem] = updated.splice(draggedIndex, 1);
+      updated.splice(targetIndex, 0, draggedItem);
+      return updated;
+    });
+
+    setOptionImages((prev) => {
+      const updated = [...prev];
+      const [draggedItem] = updated.splice(draggedIndex, 1);
+      updated.splice(targetIndex, 0, draggedItem);
+      return updated;
+    });
+
+    setDraggedIndex(null);
+  }
+
+  function handleDragEnd() {
+    setDraggedIndex(null);
+  }
+
+  const handleOptionKeyDown = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (i === options.length - 1 && options.length < MAX_OPTIONS) {
+        setOptions((prev) => [...prev, ""]);
+        setOptionImages((prev) => [...prev, ""]);
+        setTimeout(() => {
+          optionRefs.current[i + 1]?.focus();
+        }, 0);
+      } else if (i < options.length - 1) {
+        optionRefs.current[i + 1]?.focus();
+      }
+    }
+  };
 
   return null;
 }

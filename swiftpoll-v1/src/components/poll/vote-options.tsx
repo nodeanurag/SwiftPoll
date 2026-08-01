@@ -62,5 +62,65 @@ export function VoteOptions({
     );
   }
 
+  // 2. Ranking Preferences Renderer
+  if (type === "ranking") {
+    const getOptionRank = (id: string) => {
+      const idx = selected.indexOf(id);
+      return idx !== -1 ? idx + 1 : null;
+    };
+
+    return (
+      <div className="space-y-4">
+        <p className="text-center text-xs text-[var(--color-muted-fg)] font-medium">
+          Click options in order of your preference to rank them (1st, 2nd, etc.):
+        </p>
+        <div className="space-y-2.5">
+          {sortedOptions.map((opt) => {
+            const rank = getOptionRank(opt.id);
+            const isSel = rank !== null;
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={submitting}
+                onClick={() => onToggle(opt.id)}
+                className={cn(
+                  "group flex w-full items-center justify-between rounded-[var(--radius)] border px-4 py-4 text-left transition-all duration-200 cursor-pointer",
+                  "hover:-translate-y-0.5 hover:border-[var(--color-fg)] hover:bg-[var(--color-subtle)]",
+                  isSel
+                    ? "border-[var(--color-fg)] bg-[var(--color-subtle)] shadow-sm"
+                    : "border-[var(--color-border)] bg-[var(--color-bg)]",
+                )}
+              >
+                <span className="font-semibold text-sm">{opt.text}</span>
+                <div className="flex items-center gap-2">
+                  {isSel ? (
+                    <span className="h-7 px-3 rounded-full bg-[var(--color-fg)] text-[var(--color-bg)] text-[10px] font-bold flex items-center justify-center shadow-sm">
+                      Rank {rank}
+                    </span>
+                  ) : (
+                    <span className="h-7 px-3 rounded-full border border-dashed border-[var(--color-border)] text-[var(--color-muted-fg)] text-[10px] flex items-center justify-center group-hover:border-[var(--color-fg)] group-hover:text-[var(--color-fg)]">
+                      Unranked
+                    </span>
+                  )}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        <Button
+          className="mt-4 w-full h-11"
+          size="lg"
+          disabled={submitting || selected.length === 0}
+          onClick={() => onSubmit()}
+        >
+          {submitting ? <Loader /> : null}
+          {submitting ? "Submitting…" : "Submit ranking"}
+        </Button>
+      </div>
+    );
+  }
+
   return null;
 }

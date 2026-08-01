@@ -31,7 +31,7 @@ export default function HomePage() {
           <div className="pt-4">
             <a 
               href="#builder" 
-              className="inline-flex h-12 items-center justify-center rounded-[var(--radius)] bg-[var(--color-cream-canvas)] px-8 text-base font-medium text-[var(--color-aubergine-ink)] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-md"
+              className="inline-flex h-12 items-center justify-center rounded-[var(--radius)] bg-[var(--color-brand-500)] px-8 text-base font-medium text-[var(--color-bg)] transition-all duration-300 hover:bg-[var(--color-brand-600)] hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(159,141,252,0.2)] dark:hover:shadow-[0_0_15px_rgba(159,141,252,0.4)] active:translate-y-0 active:scale-[0.98] border border-[var(--color-brand-500)] shadow-md"
             >
               Start Building Free
             </a>
@@ -121,7 +121,7 @@ export default function HomePage() {
             <div className="pt-2">
               <a 
                 href="#builder" 
-                className="inline-flex h-11 items-center justify-center rounded-[var(--radius)] bg-[var(--color-aubergine-ink)] px-6 text-sm font-medium text-[var(--color-cream-canvas)] transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-sm"
+                className="inline-flex h-11 items-center justify-center rounded-[var(--radius)] bg-[var(--color-brand-500)] px-6 text-sm font-medium text-[var(--color-bg)] transition-all duration-300 hover:bg-[var(--color-brand-600)] hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(159,141,252,0.2)] dark:hover:shadow-[0_0_15px_rgba(159,141,252,0.4)] active:translate-y-0 active:scale-[0.98] border border-[var(--color-brand-500)] shadow-sm"
               >
                 Create your first poll
               </a>

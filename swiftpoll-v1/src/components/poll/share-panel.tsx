@@ -8,9 +8,16 @@ import { Button } from "@/components/ui/button";
 export function SharePanel({ slug, question }: { slug: string; question: string }) {
   const [url, setUrl] = useState("");
   const [copied, setCopied] = useState(false);
+  const [showQr, setShowQr] = useState(false);
+  const [canShare, setCanShare] = useState(false);
 
+  // The absolute URL and Web Share availability are browser-only; resolve them
+  // after mount. (setState-in-effect is intentional and correct here.)
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     setUrl(`${window.location.origin}/p/${slug}`);
+    setCanShare(typeof navigator !== "undefined" && "share" in navigator);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [slug]);
 
   async function copy() {
@@ -19,7 +26,15 @@ export function SharePanel({ slug, question }: { slug: string; question: string 
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Clipboard may be blocked; user can copy manually.
+      // Clipboard may be blocked; the input below lets users copy manually.
+    }
+  }
+
+  async function nativeShare() {
+    try {
+      await navigator.share({ title: "SwiftPoll", text: question, url });
+    } catch {
+      // user cancelled or unsupported — ignore
     }
   }
 
@@ -37,8 +52,27 @@ export function SharePanel({ slug, question }: { slug: string; question: string 
           <Button variant="secondary" size="md" onClick={copy} className="flex-1 sm:flex-none">
             {copied ? "Copied!" : "Copy link"}
           </Button>
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={() => setShowQr((v) => !v)}
+            aria-expanded={showQr}
+          >
+            QR
+          </Button>
+          {canShare && (
+            <Button variant="secondary" size="md" onClick={nativeShare}>
+              Share
+            </Button>
+          )}
         </div>
       </div>
+
+      {showQr && url && (
+        <div className="flex justify-center rounded-[var(--radius)] border bg-white p-4 animate-fade-in-up">
+          <QRCodeSVG value={url} size={176} marginSize={2} />
+        </div>
+      )}
     </div>
   );
 }

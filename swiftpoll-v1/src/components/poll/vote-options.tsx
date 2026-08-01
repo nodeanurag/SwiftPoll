@@ -15,6 +15,10 @@ interface VoteOptionsProps {
   onSubmit: (textResponse?: string) => void;
 }
 
+/**
+ * The ballot. Handles single and multiple choice layouts, as well as star rating
+ * and 1-10 numerical scale selectors.
+ */
 export function VoteOptions({
   options,
   type,
@@ -122,6 +126,42 @@ export function VoteOptions({
     );
   }
 
+  // Emoji Reactions Renderer
+  if (type === "reactions") {
+    return (
+      <div className="space-y-4 py-2">
+        <p className="text-center text-xs text-[var(--color-muted-fg)]">
+          Tap an emoji to react and vote:
+        </p>
+        <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
+          {sortedOptions.map((opt) => {
+            const isSelected = selected.includes(opt.id);
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={submitting}
+                onClick={() => onToggle(opt.id)}
+                className={cn(
+                  "h-16 w-16 rounded-full border flex items-center justify-center text-3xl transition-all duration-200 cursor-pointer",
+                  "hover:scale-110 active:scale-95 hover:bg-[var(--color-subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--color-fg)]",
+                  isSelected
+                    ? "border-[var(--color-fg)] bg-[var(--color-subtle)] scale-110 shadow-md animate-pop"
+                    : "border-[var(--color-border)] bg-[var(--color-bg)] shadow-sm",
+                  "disabled:opacity-50 disabled:pointer-events-none"
+                )}
+                aria-label={`React with ${opt.text}`}
+                title={opt.text}
+              >
+                {opt.text}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   // 1. Star Rating Renderer
   if (type === "rating") {
     return (
@@ -213,5 +253,151 @@ export function VoteOptions({
     );
   }
 
-  return null;
+  // Choice Options Ballot Renderer (with Image Grid support)
+  const hasImages = options.some((o) => o.image_url);
+  if (hasImages && (type === "single" || type === "multiple")) {
+    return (
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {sortedOptions.map((opt) => {
+            const isSelected = selected.includes(opt.id);
+            return (
+              <button
+                key={opt.id}
+                type="button"
+                disabled={submitting}
+                onClick={() => onToggle(opt.id)}
+                className={cn(
+                  "group flex flex-col overflow-hidden rounded-2xl border text-left transition-all duration-200 cursor-pointer shadow-sm",
+                  "hover:-translate-y-0.5 hover:shadow-md hover:border-[var(--color-fg)]",
+                  isSelected
+                    ? "border-[var(--color-fg)] bg-[var(--color-subtle)] ring-1 ring-[var(--color-fg)]"
+                    : "border-[var(--color-border)] bg-[var(--color-bg)]"
+                )}
+              >
+                <div className="relative h-32 w-full bg-[var(--color-subtle)] border-b border-[var(--color-border)] flex items-center justify-center overflow-hidden">
+                  {opt.image_url ? (
+                    <img 
+                      src={opt.image_url} 
+                      alt={opt.text} 
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <span className="text-[var(--color-muted-fg)] text-[10px]">No image URL</span>
+                  )}
+                </div>
+                <div className="p-4 flex items-center justify-between gap-3 w-full">
+                  <span className="font-semibold text-sm truncate">{opt.text}</span>
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex h-5 w-5 shrink-0 items-center justify-center border transition-all duration-200",
+                      multiple ? "rounded-md" : "rounded-full",
+                      isSelected
+                        ? "border-[var(--color-fg)] bg-[var(--color-fg)] text-[var(--color-bg)]"
+                        : "border-[var(--color-border)] group-hover:border-[var(--color-fg)]"
+                    )}
+                  >
+                    {isSelected && (
+                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+                        <path
+                          d="M3.5 8.5l3 3 6-7"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {multiple && (
+          <Button
+            className="mt-4 w-full h-11"
+            size="lg"
+            disabled={submitting || selected.length === 0}
+            onClick={() => onSubmit()}
+          >
+            {submitting ? <Loader /> : null}
+            {submitting ? "Submitting…" : "Submit vote"}
+          </Button>
+        )}
+      </div>
+    );
+  }
+
+  // Choice Options Ballot Renderer
+  return (
+    <div>
+      <div
+        role={multiple ? "group" : "radiogroup"}
+        aria-label="Poll options"
+        className="space-y-2.5"
+      >
+        {options.map((opt) => {
+          const isSelected = selected.includes(opt.id);
+          return (
+            <button
+              key={opt.id}
+              type="button"
+              role={multiple ? "checkbox" : "radio"}
+              aria-checked={isSelected}
+              disabled={submitting}
+              onClick={() => onToggle(opt.id)}
+              className={cn(
+                "group flex w-full items-center gap-3 rounded-[var(--radius)] border px-4 py-4 text-left transition-all duration-200 cursor-pointer",
+                "hover:-translate-y-0.5 hover:border-[var(--color-fg)] hover:shadow-sm hover:bg-[var(--color-subtle)]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-fg)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)]",
+                "disabled:pointer-events-none disabled:opacity-60",
+                isSelected
+                  ? "border-[var(--color-fg)] bg-[var(--color-subtle)] shadow-sm"
+                  : "border-[var(--color-border)] bg-[var(--color-bg)]",
+              )}
+            >
+              <span
+                aria-hidden
+                className={cn(
+                  "flex h-5 w-5 shrink-0 items-center justify-center border transition-all duration-200",
+                  multiple ? "rounded-md" : "rounded-full",
+                  isSelected
+                    ? "border-[var(--color-fg)] bg-[var(--color-fg)] text-[var(--color-bg)] shadow-sm"
+                    : "border-[var(--color-border)] group-hover:border-[var(--color-fg)]",
+                )}
+              >
+                {isSelected && (
+                  <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+                    <path
+                      d="M3.5 8.5l3 3 6-7"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </span>
+              <span className="font-medium">{opt.text}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {multiple && (
+        <Button
+          className="mt-4 w-full"
+          size="lg"
+          disabled={submitting || selected.length === 0}
+          onClick={() => onSubmit()}
+        >
+          {submitting ? <Loader /> : null}
+          {submitting ? "Submitting…" : "Submit vote"}
+        </Button>
+      )}
+    </div>
+  );
 }

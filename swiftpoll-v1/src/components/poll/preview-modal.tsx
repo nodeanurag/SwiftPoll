@@ -76,5 +76,35 @@ export function PreviewModal({
 
   if (!isOpen) return null;
 
+  function handleToggle(id: string) {
+    if (type === "single" || type === "rating" || type === "scale") {
+      setSelected([id]);
+      if (type === "rating" || type === "scale") {
+        setVoted(true);
+      }
+    } else {
+      setSelected((prev) =>
+        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      );
+    }
+  }
+
+  function handleSubmit() {
+    if (type === "text") {
+      if (optionResults[0]) {
+        setSelected([optionResults[0].id]);
+        setVoted(true);
+      }
+    } else if (selected.length > 0) {
+      setVoted(true);
+    }
+  }
+
+  function handleReset() {
+    setSelected([]);
+    setVoted(false);
+    setViewResults(false);
+  }
+
   return null;
 }

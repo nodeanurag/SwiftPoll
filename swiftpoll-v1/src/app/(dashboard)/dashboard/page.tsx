@@ -101,6 +101,37 @@ export default function DashboardCommandCenter() {
               Overview of active collaborative workspaces, poll volumes, and programmatical keys.
             </p>
           </div>
+
+          <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
+            {user && (
+              <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-muted-fg/70">
+                  Active Space
+                </span>
+                <select
+                  value={activeWorkspace?.id || ""}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    const ws = workspaces.find((w) => w.id === id) || null;
+                    setActiveWorkspace(ws);
+                  }}
+                  className="h-9 rounded-xl border border-white/10 bg-white/5 px-3 text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer text-white min-w-[180px] shadow-sm hover:bg-white/10 transition-all w-full md:w-auto"
+                >
+                  <option value="" className="bg-card text-fg">Personal Space</option>
+                  {workspaces.map((ws) => (
+                    <option key={ws.id} value={ws.id} className="bg-card text-fg">
+                      🏢 {ws.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <Link href="/polls/create" className="hidden sm:inline-block">
+              <Button size="sm" className="bg-brand-500 hover:bg-brand-600 text-bg text-[11px] font-bold h-9 px-3 border-0 rounded-xl cursor-pointer mt-3.5">
+                + Create Poll
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

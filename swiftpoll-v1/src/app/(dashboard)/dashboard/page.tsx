@@ -6,10 +6,13 @@ import { useDashboard } from "@/context/dashboard-context";
 import { 
   BarChart3, 
   Vote, 
-  ExternalLink,
-  PlusCircle,
-  LayoutTemplate,
-  Folder,
+  ExternalLink, 
+  PlusCircle, 
+  LayoutTemplate, 
+  Folder, 
+  FolderOpen,
+  Loader,
+  Users,
   ArrowRight
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -262,6 +265,27 @@ export default function DashboardCommandCenter() {
               </Card>
             </Link>
           </div>
+        </div>
+
+        {/* Bottom Split View */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+          {/* Recent Polls */}
+          <Card className="border border-border bg-card p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+            <h3 className="font-serif text-base font-normal tracking-tight text-fg flex items-center justify-between">
+              <span>Recent Polls</span>
+              <Link href="/polls" className="text-xs text-brand-500 hover:underline">View All</Link>
+            </h3>
+            <div className="text-muted-fg text-xs">Recent Polls Content Placeholder</div>
+          </Card>
+
+          {/* Recent Activity */}
+          <Card className="border border-border bg-card p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
+            <h3 className="font-serif text-base font-normal tracking-tight text-fg flex items-center justify-between">
+              <span>Recent Activity</span>
+              {activeWorkspace && <Link href="/workspaces" className="text-xs text-brand-500 hover:underline">Members</Link>}
+            </h3>
+            <div className="text-muted-fg text-xs">Recent Activity Content Placeholder</div>
+          </Card>
         </div>
       </div>
     </div>

@@ -6,7 +6,11 @@ import { useDashboard } from "@/context/dashboard-context";
 import { 
   BarChart3, 
   Vote, 
-  ExternalLink
+  ExternalLink,
+  PlusCircle,
+  LayoutTemplate,
+  Folder,
+  ArrowRight
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -190,6 +194,74 @@ export default function DashboardCommandCenter() {
               </span>
             </div>
           </Card>
+        </div>
+
+        {/* Vercel-like Quick Actions */}
+        <div className="space-y-2.5">
+          <h3 className="font-serif text-base font-normal tracking-tight text-fg">
+            Quick Actions
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Link href="/polls/create">
+              <Card className="p-4.5 border border-border bg-card flex items-center justify-between gap-4 hover:border-brand-500 hover:bg-subtle/30 transition-all duration-200 cursor-pointer group h-20 rounded-2xl">
+                <div className="flex items-center gap-3.5">
+                  <div className="bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl text-brand-500 group-hover:scale-110 duration-200 transition-transform">
+                    <PlusCircle className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-xs font-bold block text-fg">Create Poll</span>
+                    <span className="text-[10px] text-muted-fg block leading-normal mt-0.5">Start building a new poll</span>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-fg group-hover:text-fg group-hover:translate-x-1 duration-150 transition-transform" />
+              </Card>
+            </Link>
+
+            <Link href="/analytics">
+              <Card className="p-4.5 border border-border bg-card flex items-center justify-between gap-4 hover:border-brand-500 hover:bg-subtle/30 transition-all duration-200 cursor-pointer group h-20 rounded-2xl">
+                <div className="flex items-center gap-3.5">
+                  <div className="bg-blue-500/10 border border-blue-500/20 p-2.5 rounded-xl text-blue-400 group-hover:scale-110 duration-200 transition-transform">
+                    <BarChart3 className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-xs font-bold block text-fg">View Analytics</span>
+                    <span className="text-[10px] text-muted-fg block leading-normal mt-0.5">Examine answer trends</span>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-fg group-hover:text-fg group-hover:translate-x-1 duration-150 transition-transform" />
+              </Card>
+            </Link>
+
+            <Link href="/templates">
+              <Card className="p-4.5 border border-border bg-card flex items-center justify-between gap-4 hover:border-brand-500 hover:bg-subtle/30 transition-all duration-200 cursor-pointer group h-20 rounded-2xl">
+                <div className="flex items-center gap-3.5">
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-xl text-emerald-400 group-hover:scale-110 duration-200 transition-transform">
+                    <LayoutTemplate className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-xs font-bold block text-fg">Templates</span>
+                    <span className="text-[10px] text-muted-fg block leading-normal mt-0.5">Launch pre-built templates</span>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-fg group-hover:text-fg group-hover:translate-x-1 duration-150 transition-transform" />
+              </Card>
+            </Link>
+
+            <Link href="/workspaces">
+              <Card className="p-4.5 border border-border bg-card flex items-center justify-between gap-4 hover:border-brand-500 hover:bg-subtle/30 transition-all duration-200 cursor-pointer group h-20 rounded-2xl">
+                <div className="flex items-center gap-3.5">
+                  <div className="bg-orange-500/10 border border-orange-500/20 p-2.5 rounded-xl text-orange-400 group-hover:scale-110 duration-200 transition-transform">
+                    <Folder className="h-5 w-5" />
+                  </div>
+                  <div className="text-left">
+                    <span className="text-xs font-bold block text-fg">Workspaces</span>
+                    <span className="text-[10px] text-muted-fg block leading-normal mt-0.5">Manage team preferences</span>
+                  </div>
+                </div>
+                <ArrowRight className="h-4 w-4 text-muted-fg group-hover:text-fg group-hover:translate-x-1 duration-150 transition-transform" />
+              </Card>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

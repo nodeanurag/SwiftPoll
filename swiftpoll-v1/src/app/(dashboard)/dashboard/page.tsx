@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDashboard } from "@/context/dashboard-context";
+import { 
+  BarChart3, 
+  Vote, 
+  ExternalLink
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -134,6 +139,59 @@ export default function DashboardCommandCenter() {
           </div>
         </div>
       </section>
+
+      <div className="space-y-6">
+        {/* Stripe-like KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Total Polls */}
+          <Card className="p-5 rounded-2xl flex flex-col justify-between h-28 border border-border bg-card shadow-sm hover:border-brand-500/20 duration-150 transition-all">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-fg/90">Total Polls</span>
+              <div className="bg-blue-500/10 border border-blue-500/20 p-2 rounded-xl text-blue-600 dark:text-blue-400">
+                <BarChart3 className="h-4 w-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between mt-2">
+              <p className="text-3xl font-bold font-serif text-fg">{loadingPolls ? "..." : totalPolls}</p>
+              <span className="inline-flex items-center rounded-full bg-blue-500/10 px-2 py-0.5 text-[9px] font-bold text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                +12%
+              </span>
+            </div>
+          </Card>
+
+          {/* Active Polls */}
+          <Card className="p-5 rounded-2xl flex flex-col justify-between h-28 border border-border bg-card shadow-sm hover:border-brand-500/20 duration-150 transition-all">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-fg/90">Active Polls</span>
+              <div className="bg-emerald-500/10 border border-emerald-500/20 p-2 rounded-xl text-emerald-600 dark:text-emerald-400">
+                <Vote className="h-4 w-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between mt-2">
+              <p className="text-3xl font-bold font-serif text-fg">{loadingPolls ? "..." : activePolls}</p>
+              <span className="inline-flex items-center rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                +5%
+              </span>
+            </div>
+          </Card>
+
+          {/* Total Votes */}
+          <Card className="p-5 rounded-2xl flex flex-col justify-between h-28 border border-border bg-card shadow-sm hover:border-brand-500/20 duration-150 transition-all">
+            <div className="flex justify-between items-start">
+              <span className="text-[10px] font-bold uppercase tracking-[0.08em] text-muted-fg/90">Total Votes</span>
+              <div className="bg-orange-500/10 border border-orange-500/20 p-2 rounded-xl text-orange-600 dark:text-orange-400">
+                <ExternalLink className="h-4 w-4" />
+              </div>
+            </div>
+            <div className="flex items-baseline justify-between mt-2">
+              <p className="text-3xl font-bold font-serif text-fg">{loadingPolls ? "..." : totalVotes.toLocaleString()}</p>
+              <span className="inline-flex items-center rounded-full bg-orange-500/10 px-2 py-0.5 text-[9px] font-bold text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                +22%
+              </span>
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

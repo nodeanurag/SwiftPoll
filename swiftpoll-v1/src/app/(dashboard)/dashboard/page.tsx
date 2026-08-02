@@ -317,13 +317,57 @@ export default function DashboardCommandCenter() {
             )}
           </Card>
 
-          {/* Recent Activity */}
+          {/* Recent Activity (Audit logs) */}
           <Card className="border border-border bg-card p-5 sm:p-6 rounded-2xl shadow-sm space-y-4">
             <h3 className="font-serif text-base font-normal tracking-tight text-fg flex items-center justify-between">
               <span>Recent Activity</span>
               {activeWorkspace && <Link href="/workspaces" className="text-xs text-brand-500 hover:underline">Members</Link>}
             </h3>
-            <div className="text-muted-fg text-xs">Recent Activity Content Placeholder</div>
+
+            {!activeWorkspace ? (
+              <div className="py-12 text-center text-xs text-muted-fg flex flex-col items-center justify-center border border-dashed rounded-xl bg-subtle/10 border-border/50 max-w-md mx-auto p-4 space-y-2">
+                <Users className="h-6 w-6 text-muted-fg mb-1" />
+                <p className="font-semibold text-fg">Personal Sandbox</p>
+                <p className="text-[10px] text-muted-fg mt-0.5">Select a collaborative team workspace to view activity trails.</p>
+              </div>
+            ) : loadingAuditLogs ? (
+              <div className="py-12 flex justify-center"><Loader className="h-5 w-5 animate-spin text-brand-500" /></div>
+            ) : auditLogs.length === 0 ? (
+              <div className="py-12 text-center text-xs text-muted-fg flex flex-col items-center justify-center border border-dashed rounded-xl bg-subtle/10 border-border/50 max-w-md mx-auto p-4 space-y-2">
+                <Users className="h-6 w-6 text-muted-fg mb-1" />
+                <p className="font-semibold text-fg">No activity yet</p>
+                <p className="text-[10px] text-muted-fg mt-0.5">Collaborators haven&apos;t taken actions yet. [Invite team members]</p>
+                <Link href="/workspaces" className="inline-block mt-2">
+                  <Button size="sm" className="text-[10px] h-7 bg-subtle hover:bg-border text-fg font-bold cursor-pointer">
+                    Manage Team
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {auditLogs.map((log) => {
+                  let actionText = "";
+                  if (log.action === "poll.create") actionText = "created poll";
+                  else if (log.action === "poll.delete") actionText = "deleted poll";
+                  else if (log.action === "poll.close") actionText = "closed poll";
+                  else if (log.action === "poll.reopen") actionText = "reopened poll";
+                  else if (log.action === "member.invite") actionText = "invited user";
+
+                  return (
+                    <div key={log.id} className="p-3 rounded-xl border border-border bg-subtle/20 text-[11px] space-y-1">
+                      <p className="text-fg leading-snug">
+                        <span className="font-semibold text-blue-400 font-mono">{log.user_email}</span>
+                        <span className="text-muted-fg"> {actionText} </span>
+                        <strong className="font-semibold">&ldquo;{log.target_name}&rdquo;</strong>.
+                      </p>
+                      <p className="text-[9px] text-muted-fg">
+                        {new Date(log.created_at).toLocaleDateString()} at {new Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </Card>
         </div>
       </div>

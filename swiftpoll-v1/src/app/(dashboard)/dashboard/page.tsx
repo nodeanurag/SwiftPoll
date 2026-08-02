@@ -55,10 +55,22 @@ export default function DashboardCommandCenter() {
     void fetchLogs();
   }, [activeWorkspace, sessionToken]);
 
+  // Aggregate stats
+  const totalPolls = polls.length;
+  const activePolls = polls.filter((p) => {
+    const expired = p.closes_at ? new Date(p.closes_at).getTime() <= currentTime : false;
+    return !p.closed && !expired;
+  }).length;
+  const totalVotes = polls.reduce((acc, p) => acc + (p.votes?.[0]?.count ?? 0), 0);
+
+  // Recent 3 polls
+  const recentPolls = polls.slice(0, 3);
+
   return (
     <div className="flex-1 min-w-0 flex flex-col max-w-[1600px] w-full mx-auto px-6 sm:px-8 py-6">
       <div className="text-white">
         Welcome back, {user?.user_metadata?.display_name || user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Creator"}
+        <p>Total Polls: {totalPolls}, Active: {activePolls}, Total Votes: {totalVotes}</p>
       </div>
     </div>
   );

@@ -1,6 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { useDashboard } from "@/context/dashboard-context";
+
+interface AuditLogItem {
+  id: string;
+  user_email: string;
+  action: string;
+  target_name: string;
+  created_at: string;
+}
 
 export default function DashboardCommandCenter() {
   const { 
@@ -13,6 +22,9 @@ export default function DashboardCommandCenter() {
     loadingPolls,
     currentTime
   } = useDashboard();
+
+  const [auditLogs, setAuditLogs] = useState<AuditLogItem[]>([]);
+  const [loadingAuditLogs, setLoadingAuditLogs] = useState(false);
 
   return (
     <div className="flex-1 min-w-0 flex flex-col max-w-[1600px] w-full mx-auto px-6 sm:px-8 py-6">

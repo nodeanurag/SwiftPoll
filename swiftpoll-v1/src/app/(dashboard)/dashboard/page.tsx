@@ -275,7 +275,46 @@ export default function DashboardCommandCenter() {
               <span>Recent Polls</span>
               <Link href="/polls" className="text-xs text-brand-500 hover:underline">View All</Link>
             </h3>
-            <div className="text-muted-fg text-xs">Recent Polls Content Placeholder</div>
+
+            {loadingPolls ? (
+              <div className="py-12 flex justify-center"><Loader className="h-5 w-5 animate-spin text-brand-500" /></div>
+            ) : recentPolls.length === 0 ? (
+              <div className="py-12 text-center text-xs text-muted-fg flex flex-col items-center justify-center border border-dashed rounded-xl bg-subtle/10 border-border/50 max-w-md mx-auto p-4 space-y-2">
+                <FolderOpen className="h-6 w-6 text-muted-fg mb-1" />
+                <p className="font-semibold text-fg">No polls yet</p>
+                <p className="text-[10px] text-muted-fg mt-0.5">Create your first poll to gather answers.</p>
+                <Link href="/polls/create" className="inline-block mt-2">
+                  <Button size="sm" className="text-[10px] h-7 bg-brand-500 hover:bg-brand-600 text-bg font-bold cursor-pointer">
+                    Create Poll
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-2.5">
+                {recentPolls.map((poll) => (
+                  <div key={poll.id} className="flex justify-between items-center p-3 rounded-xl border border-border bg-subtle/20 hover:border-brand-500/20 duration-150 transition-colors">
+                    <div className="min-w-0 flex-1 pr-2">
+                      <p className="font-serif text-sm font-normal text-fg truncate">{poll.question}</p>
+                      <p className="text-[10px] text-muted-fg mt-0.5">
+                        {new Date(poll.created_at).toLocaleDateString()} · {poll.votes?.[0]?.count ?? 0} votes
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <Link href={`/p/${poll.slug}`} target="_blank">
+                        <Button variant="secondary" size="sm" className="text-[10px] h-8 px-2.5 cursor-pointer">
+                          View
+                        </Button>
+                      </Link>
+                      <Link href={`/dashboard/analytics/${poll.slug}`}>
+                        <Button variant="secondary" size="sm" className="text-[10px] h-8 px-2.5 cursor-pointer">
+                          Stats
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </Card>
 
           {/* Recent Activity */}

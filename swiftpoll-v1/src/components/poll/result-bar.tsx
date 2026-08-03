@@ -9,7 +9,7 @@ interface ResultBarProps {
   imageUrl?: string | null;
 }
 
-/** A single result row: label, animated fill bar, percentage and count. */
+
 export function ResultBar({
   text,
   votes,
@@ -28,7 +28,7 @@ export function ResultBar({
             : "border-[var(--color-border)] bg-[var(--color-bg)]",
         )}
       >
-        {/* Animated fill */}
+    
         <div
           className={cn(
             "absolute inset-y-0 left-0 transition-all duration-1000 ease-out",

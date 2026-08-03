@@ -10,8 +10,6 @@ interface ResultsViewProps {
   type?: string;
   responses?: string[];
 }
-
-/** Renders all options as result bars, sorted by votes (desc). */
 export function ResultsView({
   options,
   counts,
